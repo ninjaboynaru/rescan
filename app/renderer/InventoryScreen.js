@@ -17,6 +17,25 @@ class InventoryScreen extends React.Component {
 		}
 	}
 
+	// eslint-disable-next-line
+	editProduct(productId) {
+		console.log('CALLED EDIT ON: ', productId);
+	}
+
+	// eslint-disable-next-line
+	deleteProduct(productId) {
+		console.log('CALLED DELETE ON: ', productId);
+	}
+
+	buildProductRows() {
+		return db.getAllProducts().map((product) => {
+			const onEditClick = () => this.editProduct(product.id);
+			const onDeleteClick = () => this.deleteProduct(product.id);
+
+			return <ProductRow product={product} key={product.id} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />;
+		});
+	}
+
 	render() {
 		const { dbError } = this.state;
 		let title;
@@ -29,7 +48,7 @@ class InventoryScreen extends React.Component {
 		}
 		else {
 			title = db.getDBName();
-			productRows = db.getAllProducts().map((product) => <ProductRow product={product} key={product.id} />);
+			productRows = this.buildProductRows();
 		}
 
 		return (

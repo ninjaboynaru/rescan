@@ -1,10 +1,13 @@
 :root {
-	--danger-color: ##da1e27;
+	--gray-color: #606060;
+	--danger-color: #da1e27;
 	--background-color: white;
-	--text-gray-color: #606060;
-	--btn-primary-color: #0f61fd;
-	--btn-primary-hover-color: #0547C5;
+	--text-gray-color: var(--gray-color);
+
+	--btn-hover-brightness: 95%;
 	--btn-text-color: white;
+	--btn-primary-color: #0f61fd;
+	--btn-danger-color: var(--danger-color);
 }
 
 body {
@@ -38,14 +41,14 @@ body {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
-	align-items: center;
+	align-items: stretch;
 }
 
 .product-row__item {
 	flex-grow: 3;
 	text-align: center;
 	padding: 6px 12px;
-	border: 1px solid black;
+	border: 1px solid var(--gray-color);
 	color: black;
 }
 
@@ -54,7 +57,24 @@ body {
 }
 
 .product-row__item--small {
-	flex-grow: 1
+	flex-grow: 0.5
+}
+
+.product-row__btn {
+	flex-grow: 0.5;
+	border: 1px solid var(--gray-color);
+	border-radius: 0;
+	color: var(--btn-text-color);
+	background-color: var(--btn-primary-color);
+}
+
+.product-row__btn:hover {
+	filter: brightness(var(--btn-hover-brightness));
+	cursor: pointer;
+}
+
+.product-row__btn--danger {
+	background-color: var(--btn-danger-color);
 }
 
 
@@ -76,6 +96,37 @@ body {
 	padding: 0;
 }
 
+.modal-container {
+
+}
+
+.modal {
+
+}
+
+.modal__title {
+
+}
+
+.modal__body {
+
+}
+
+.modal__btn-container {
+
+}
+
+.modal-btn {
+
+}
+
+.modal-btn--cancel {
+
+}
+
+.modal-btn--confirm {
+	
+}
 
 .btn {
 	background-color: var(--btn-primary-color);
@@ -88,6 +139,6 @@ body {
 }
 
 .btn:hover {
-	background-color: var(--btn-primary-hover-color);
+	filter: brightness(var(--btn-hover-brightness));
 	cursor: pointer;
 }

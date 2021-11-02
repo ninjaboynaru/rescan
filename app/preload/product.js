@@ -10,6 +10,10 @@ class Product {
 		this.count = count;
 		this.noun = noun;
 	}
+
+	toObject() {
+		return { id: this.id, name: this.name, nsn: this.nsn, count: this.count, noun: this.noun };
+	}
 }
 
 module.exports = Product;

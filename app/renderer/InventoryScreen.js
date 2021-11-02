@@ -2,13 +2,19 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import ScreenTitle from './ScreenTitle';
 import ProductRow from './ProductRow';
+import ProductEditRow from './ProductEditRow';
 
 const db = window.db;
 
 class InventoryScreen extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { dbError: false, dbLoaded: false, products: [] };
+		this.state = { dbError: false, dbLoaded: false, products: [], editingProductId: null };
+
+		this.editProduct = this.editProduct.bind(this);
+		this.deleteProduct = this.deleteProduct.bind(this);
+		this.saveEdit = this.saveEdit.bind(this);
+		this.cancelEdit = this.cancelEdit.bind(this);
 	}
 
 	componentDidMount() {
@@ -31,14 +37,35 @@ class InventoryScreen extends React.Component {
 		}
 	}
 
-	// eslint-disable-next-line
 	editProduct(productId) {
-		console.log('CALLED EDIT ON: ', productId);
+		this.setState({ editingProductId: productId });
 	}
 
 	deleteProduct(productId) {
-		db.deleteProduct(productId);
+		const operatonSuccess = db.deleteProduct(productId);
+
+		if (operatonSuccess === false) {
+			this.setState({ dbError: true });
+			return;
+		}
+
 		this.reloadDB();
+	}
+
+	saveEdit(modifiedProduct) {
+		const operationSuccess = db.updateProduct(this.state.editingProductId, modifiedProduct);
+
+		if (operationSuccess === false) {
+			this.setState({ dbError: true });
+			return;
+		}
+
+		this.setState({ editingProductId: null });
+		this.reloadDB();
+	}
+
+	cancelEdit() {
+		this.setState({ editingProductId: null });
 	}
 
 	buildProductRows() {
@@ -46,7 +73,16 @@ class InventoryScreen extends React.Component {
 			const onEditClick = () => this.editProduct(product.id);
 			const onDeleteClick = () => this.deleteProduct(product.id);
 
-			return <ProductRow product={product} key={product.id} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />;
+			let rowUI;
+
+			if (this.state.editingProductId === product.id) {
+				rowUI = <ProductEditRow key={product.id} product={product} onSaveClick={this.saveEdit} onCancelClick={this.cancelEdit} />;
+			}
+			else {
+				rowUI = <ProductRow key={product.id} product={product} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />;
+			}
+
+			return rowUI;
 		});
 	}
 

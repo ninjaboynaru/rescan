@@ -93,10 +93,22 @@ const db = new function() {
 		const productIndex = getProductIndex(productId);
 
 		if (productIndex === -1) {
-			return;
+			return false;
 		}
 
 		activeDB.obj.products.splice(productIndex, 1);
+		return save();
+	}
+
+	this.updateProduct = function updateProduct(productId, newProduct) {
+		const productIndex = getProductIndex(productId);
+
+		if (productIndex === -1) {
+			return false;
+		}
+
+		activeDB.obj.products[productIndex] = newProduct;
+
 		return save();
 	}
 }();

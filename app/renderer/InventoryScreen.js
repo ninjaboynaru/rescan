@@ -8,12 +8,26 @@ const db = window.db;
 class InventoryScreen extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = { dbError: false, dbLoaded: false, products: [] };
+	}
 
-		this.state = { dbError: false };
-		const openSuccess = db.open(this.props.history.location.state.invFilePath);
+	componentDidMount() {
+		this.reloadDB();
+	}
 
-		if (openSuccess === false) {
-			this.state.dbError = true;
+	reloadDB() {
+		if (this.state.dbLoaded === false) {
+			const openSuccess = db.open(this.props.history.location.state.invFilePath);
+
+			if (openSuccess === false) {
+				this.setState({ dbError: true });
+				return;
+			}
+
+			this.setState({ products: db.getAllProducts(), dbLoaded: true });
+		}
+		else {
+			this.setState({ products: db.getAllProducts() });
 		}
 	}
 
@@ -22,13 +36,13 @@ class InventoryScreen extends React.Component {
 		console.log('CALLED EDIT ON: ', productId);
 	}
 
-	// eslint-disable-next-line
 	deleteProduct(productId) {
-		console.log('CALLED DELETE ON: ', productId);
+		db.deleteProduct(productId);
+		this.reloadDB();
 	}
 
 	buildProductRows() {
-		return db.getAllProducts().map((product) => {
+		return this.state.products.map((product) => {
 			const onEditClick = () => this.editProduct(product.id);
 			const onDeleteClick = () => this.deleteProduct(product.id);
 
@@ -37,7 +51,7 @@ class InventoryScreen extends React.Component {
 	}
 
 	render() {
-		const { dbError } = this.state;
+		const { dbError, dbLoaded } = this.state;
 		let title;
 		let productRows;
 		let errorUI = null;
@@ -45,6 +59,9 @@ class InventoryScreen extends React.Component {
 		if (dbError === true) {
 			errorUI = <p>ERROR LOADING DATABSE</p>;
 			title = 'Inventory Error';
+		}
+		else if (dbLoaded === false) {
+			title = 'Loading DB';
 		}
 		else {
 			title = db.getDBName();

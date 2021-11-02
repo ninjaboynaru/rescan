@@ -28,6 +28,29 @@ const db = new function() {
 		return parsedDB;
 	}
 
+	function save(filePath, dbObj) {
+		let useFilePath = filePath;
+		let useDbObj = dbObj;
+
+		if (!filePath) {
+			useFilePath = activeDB.filePath;
+		}
+		if (!dbObj) {
+			useDbObj = activeDB.obj;
+		}
+
+		const fileContents = JSON.stringify(useDbObj);
+
+		try {
+			fs.writeFileSync(useFilePath, fileContents);
+		}
+		catch {
+			return false;
+		}
+
+		return true;
+	}
+
 	this.open = function open(filePath) {
 		let fileContents;
 
@@ -51,18 +74,7 @@ const db = new function() {
 	};
 
 	this.create = function create(filePath, invName) {
-		const dbObj = { name: invName, products: [] };
-
-		const fileContents = JSON.stringify(dbObj);
-
-		try {
-			fs.writeFileSync(filePath, fileContents);
-		}
-		catch {
-			return false;
-		}
-
-		return true;
+		return save(filePath, { name: invName, products: [] });
 	};
 
 	this.getDBName = function getDBName() {
@@ -72,6 +84,21 @@ const db = new function() {
 	this.getAllProducts = function getAllProducts() {
 		return activeDB.obj.products.map((rawProduct) => new Product(rawProduct));
 	};
+
+	function getProductIndex(productId) {
+		return activeDB.obj.products.findIndex((product) => product.id === productId);
+	}
+
+	this.deleteProduct = function deleteProduct(productId) {
+		const productIndex = getProductIndex(productId);
+
+		if (productIndex === -1) {
+			return;
+		}
+
+		activeDB.obj.products.splice(productIndex, 1);
+		return save();
+	}
 }();
 
 module.exports = db;

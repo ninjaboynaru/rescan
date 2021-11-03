@@ -89,7 +89,7 @@ class InventoryManualMode extends React.Component {
 		});
 
 		if (productMode === PRODUCT_MODE.NEW) {
-			rows.unshift(<ProductEditRow key="NEW" product={null} onSaveClick={this.saveProduct} onCancelClick={this.cancelEdit} />);
+			rows.unshift(<ProductEditRow key="NEW" product={{ count: 1 }} onSaveClick={this.saveProduct} onCancelClick={this.cancelEdit} />);
 		}
 
 		return rows;

@@ -85,6 +85,10 @@ const db = new function() {
 		return activeDB.obj.products.map((plainProduct) => new Product(plainProduct));
 	};
 
+	this.hasProducts = function dbHasProducts() {
+		return activeDB.obj.products.length >= 1;
+	}
+
 	this.getProductsByNSN = function getProductsByNSN(nsn) {
 		const matchingProducts = [];
 

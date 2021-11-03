@@ -50,6 +50,10 @@ class InventoryScreen extends React.Component {
 	}
 
 	saveCSV() {
+		if (db.hasProducts() === false) {
+			return;
+		}
+
 		const products = db.getAllProducts();
 		const success = csvSaver.saveCSV(products);
 

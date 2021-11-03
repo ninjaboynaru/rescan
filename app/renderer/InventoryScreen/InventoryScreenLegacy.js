@@ -1,9 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import ScreenTitle from './ScreenTitle';
-import ProductRow from './ProductRow';
-import ProductEditRow from './ProductEditRow';
-import Button from './Button';
+import ScreenTitle from '../ScreenTitle';
+import ProductRow from '../ProductRow';
+import ProductEditRow from '../ProductEditRow';
+import Button from '../Button';
 
 const db = window.db;
 

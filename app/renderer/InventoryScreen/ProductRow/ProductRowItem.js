@@ -1,16 +1,7 @@
 import React from 'react';
 
-function ProductRowItem({ children, small, med }) {
-	let className = 'product-row__item';
-
-	if (small === true) {
-		className += ' product-row__item--small';
-	}
-	else if (med === true) {
-		className += ' product-row__item--med';
-	}
-
-	return <div className={className}>{children}</div>;
+function ProductRowItem({ children }) {
+	return <div className="product-row__item">{children}</div>;
 }
 
 function ProductRowBtn({ children, onClick, danger }) {

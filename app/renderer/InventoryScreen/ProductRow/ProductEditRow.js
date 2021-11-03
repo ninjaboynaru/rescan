@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { ProductRowItem, ProductRowBtn } from './ProductRowItem';
-import Product from '../preload/product.js';
+import Product from '../../../preload/product.js';
 
 const FIELD_ERROR_TEXT = 'Invalid Input';
 const MAX_TEXT_FIELD_LENGTH = 42;
@@ -83,8 +83,7 @@ class ProductEditRow extends React.Component {
 
 			nameError: null,
 			nounError: null,
-			nsnError: null,
-			countError: null
+			nsnError: null
 		};
 
 		this.onNameChange = this.onNameChange.bind(this);
@@ -133,20 +132,19 @@ class ProductEditRow extends React.Component {
 
 	onCountChange(event) {
 		const value = event.target.value;
-		let countError = null;
 
 		if (validIntValue(value) === false) {
-			countError = FIELD_ERROR_TEXT;
+			return;
 		}
 
-		this.modifiedProduct.count = value;
-		this.setState({ count: value, countError });
+		this.modifiedProduct.setCount(value);
+		this.setState({ count: value });
 	}
 
 	onSaveClickInternal() {
-		const { nameError, nounError, nsnError, countError } = this.state;
+		const { nameError, nounError, nsnError } = this.state;
 
-		if (nameError || nounError || nsnError || countError) {
+		if (nameError || nounError || nsnError) {
 			return;
 		}
 
@@ -154,7 +152,7 @@ class ProductEditRow extends React.Component {
 	}
 
 	render() {
-		const { name, noun, nsn, count, nameError, nounError, nsnError, countError } = this.state;
+		const { name, noun, nsn, count, nameError, nounError, nsnError } = this.state;
 		const { onCancelClick } = this.props;
 
 		return (
@@ -162,7 +160,7 @@ class ProductEditRow extends React.Component {
 				<ProductRowItem><ProductRowTextInput value={name} placeholder="name" onChange={this.onNameChange} error={nameError} /></ProductRowItem>
 				<ProductRowItem><ProductRowTextInput value={noun} placeholder="noun" onChange={this.onNounChange} error={nounError} /></ProductRowItem>
 				<ProductRowItem med><ProductRowTextInput value={nsn} placeholder="nsn" onChange={this.onNsnChange} error={nsnError} /></ProductRowItem>
-				<ProductRowItem small><ProductRowTextInput value={count} placeholder="count" onChange={this.onCountChange} error={countError} /></ProductRowItem>
+				<ProductRowItem small><ProductRowTextInput value={count} placeholder="count" onChange={this.onCountChange} /></ProductRowItem>
 				<ProductRowBtn onClick={this.onSaveClickInternal}><FontAwesomeIcon icon={faSave} /></ProductRowBtn>
 				<ProductRowBtn onClick={onCancelClick}><FontAwesomeIcon icon={faUndo} /></ProductRowBtn>
 			</div>

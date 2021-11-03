@@ -82,8 +82,39 @@ const db = new function() {
 	};
 
 	this.getAllProducts = function getAllProducts() {
-		return activeDB.obj.products.map((rawProduct) => new Product(rawProduct));
+		return activeDB.obj.products.map((plainProduct) => new Product(plainProduct));
 	};
+
+	this.getProductsByNSN = function getProductsByNSN(nsn) {
+		const matchingProducts = [];
+
+		activeDB.obj.products.forEach((rawProduct) => {
+			if (rawProduct.nsn === nsn) {
+				matchingProducts.push(new Product(rawProduct));
+			}
+		});
+
+		return matchingProducts;
+	}
+
+	this.incrementByNSN = function incrementByNSN(nsn) {
+		const matchingProducts = [];
+
+		activeDB.obj.products.forEach((rawProduct) => {
+			if (rawProduct.nsn === nsn) {
+				rawProduct.count += 1;
+				matchingProducts.push(new Product(rawProduct));
+			}
+		});
+
+		const success = save();
+
+		if (success === false) {
+			return false;
+		}
+
+		return matchingProducts;
+	}
 
 	function getProductIndex(productId) {
 		return activeDB.obj.products.findIndex((product) => product.id === productId);

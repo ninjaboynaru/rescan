@@ -11,14 +11,16 @@ const INVENTORY_MODE = {
 };
 
 const db = window.db;
+const csvSaver = window.csvSaver;
 
 class InventoryScreen extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { mode: INVENTORY_MODE.SCAN, dbLoading: true, dbError: false };
+		this.state = { mode: INVENTORY_MODE.MANUAL, dbLoading: true, dbError: false };
 
 		this.switchManualMode = this.switchManualMode.bind(this);
 		this.switchScanMode = this.switchScanMode.bind(this);
+		this.saveCSV = this.saveCSV.bind(this);
 	}
 
 	componentDidMount() {
@@ -47,11 +49,20 @@ class InventoryScreen extends React.Component {
 		this.setState({ mode: INVENTORY_MODE.SCAN });
 	}
 
+	saveCSV() {
+		const products = db.getAllProducts();
+		const success = csvSaver.saveCSV(products);
+
+		if (success === false) {
+			this.setState({ dbError: true });
+		}
+	}
+
 	render() {
 		const { mode, dbLoading, dbError } = this.state;
 
 		if (dbError === true) {
-			return <p>ERROR LOADING DATABASE</p>;
+			return <p>AN ERROR HAS OCCURRED</p>;
 		}
 		if (dbLoading === true) {
 			return <p>LOADING DATABASE...</p>;
@@ -76,6 +87,7 @@ class InventoryScreen extends React.Component {
 				<div>
 					<Button onClick={this.switchManualMode}>Manual Mode</Button>
 					<Button onClick={this.switchScanMode}>Scan Mode</Button>
+					<Button onClick={this.saveCSV}>Save CSV</Button>
 				</div>
 				{modeUI}
 			</div>

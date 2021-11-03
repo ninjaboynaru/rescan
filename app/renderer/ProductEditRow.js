@@ -10,7 +10,7 @@ class ProductEditRow extends React.Component {
 
 		const existingProduct = this.props.product || {};
 		this.modifiedProduct = new Product(existingProduct);
-		this.state = { name: existingProduct.name, noun: existingProduct.noun, nsn: existingProduct.nsn, count: existingProduct.count };
+		this.state = { name: this.modifiedProduct.name, noun: this.modifiedProduct.noun, nsn: this.modifiedProduct.nsn, count: this.modifiedProduct.count };
 
 		this.onNameChange = this.onNameChange.bind(this);
 		this.onNounChange = this.onNounChange.bind(this);

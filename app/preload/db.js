@@ -111,6 +111,12 @@ const db = new function() {
 
 		return save();
 	}
+
+	this.createProduct = function createProduct(newProduct) {
+		activeDB.obj.products.push(newProduct);
+
+		return save();
+	}
 }();
 
 module.exports = db;

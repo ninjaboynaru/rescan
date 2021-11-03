@@ -132,38 +132,6 @@ html {
 	padding: 0;
 }
 
-.modal-container {
-
-}
-
-.modal {
-
-}
-
-.modal__title {
-
-}
-
-.modal__body {
-
-}
-
-.modal__btn-container {
-
-}
-
-.modal-btn {
-
-}
-
-.modal-btn--cancel {
-
-}
-
-.modal-btn--confirm {
-	
-}
-
 .btn {
 	background-color: var(--btn-primary-color);
 	color: var(--btn-text-color);

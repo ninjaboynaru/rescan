@@ -1,7 +1,12 @@
 import React from 'react';
 
-function ProductRowItem({ children }) {
-	return <div className="product-row__item">{children}</div>;
+function ProductRowItem({ children, label }) {
+	return (
+		<div className="product-row__item">
+			<p className="product-row__label">{label}</p>
+			{children}
+		</div>
+	);
 }
 
 function ProductRowBtn({ children, onClick, danger }) {

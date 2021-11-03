@@ -9,7 +9,7 @@
     "make": "electron-forge make",
     "build:renderer": "webpack",
     "watch:renderer": "npm run build:renderer -- --watch",
-    "lint:main": "esw app/main/**/*.js --color --fix"
+    "lint:main": "esw app/main/**/*.js --color --fix --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -37,6 +37,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
     "electron-squirrel-startup": "^1.0.0",
+    "fuse.js": "^6.4.6",
     "install": "^0.13.0",
     "json2csv": "^5.0.6",
     "npm": "^8.1.2",

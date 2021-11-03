@@ -2,7 +2,7 @@ import React from 'react';
 import nsnBarcodeListener from '../../nsnBarcodeListener';
 import ProductRow from '../ProductRow/ProductRow';
 import ProductEditRow from '../ProductRow/ProductEditRow';
-import PRODUCT_MODE from './productMode';
+import PRODUCT_MODE from './PRODUCT_MODE';
 
 const db = window.db;
 

@@ -1,27 +1,52 @@
 import React from 'react';
+import Fuse from 'fuse.js';
 import Button from '../../Button';
+import Product from '../../../preload/product';
 import ProductRow from '../ProductRow/ProductRow';
 import ProductEditRow from '../ProductRow/ProductEditRow';
-import PRODUCT_MODE from './productMode';
+import TextInput from '../../TextInput';
+import PRODUCT_MODE from './PRODUCT_MODE';
 
 const db = window.db;
 
 class InventoryManualMode extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { products: null, productMode: null, productEditId: null };
+		this.state = { products: null, displayProducts: null, searchText: '', productMode: null, productEditId: null };
 
 		this.newProduct = this.newProduct.bind(this);
 		this.cancelEdit = this.cancelEdit.bind(this);
 		this.saveProduct = this.saveProduct.bind(this);
+		this.onSearchChange = this.onSearchChange.bind(this);
 	}
 
 	componentDidMount() {
 		this.loadProducts();
 	}
 
+	onSearchChange(event) {
+		const value = event.target.value;
+		this.setState({ searchText: value });
+		this.updateDisplayProducts(value);
+	}
+
+	updateDisplayProducts(searchTerm) {
+		if (searchTerm.trim().length === 0) {
+			this.setState((prevState) => ({ displayProducts: prevState.products }));
+		}
+		else {
+			const searchKeys = ['name', 'noun', 'nsn'];
+			const fuse = new Fuse(this.state.products, { keys: searchKeys });
+			const searchResults = fuse.search(searchTerm).map((result) => new Product(result.item));
+			this.setState({ displayProducts: searchResults });
+		}
+	}
+
 	loadProducts() {
-		this.setState({ products: db.getAllProducts() });
+		const products = db.getAllProducts();
+		this.setState({ products }, () => {
+			this.updateDisplayProducts(this.state.searchText);
+		});
 	}
 
 	newProduct() {
@@ -68,12 +93,13 @@ class InventoryManualMode extends React.Component {
 	}
 
 	buildProductRows() {
-		const { products, productMode, productEditId } = this.state;
-		if (products === null) {
+		const { displayProducts, productMode, productEditId } = this.state;
+
+		if (displayProducts === null) {
 			return;
 		}
 
-		const rows = products.map((product) => {
+		const rows = displayProducts.map((product) => {
 			let row;
 
 			if (productMode === PRODUCT_MODE.EDIT && productEditId === product.id) {
@@ -100,6 +126,7 @@ class InventoryManualMode extends React.Component {
 			<>
 				<Button onClick={this.newProduct}>New Product</Button>
 				<div className="products-container">
+					<TextInput value={this.state.searchText} onChange={this.onSearchChange} placeholder="Search Products" />
 					{this.buildProductRows()}
 				</div>
 			</>

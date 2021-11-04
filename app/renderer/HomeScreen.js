@@ -31,7 +31,7 @@ class HomeScreen extends React.Component {
 
 	render() {
 		return (
-			<div className="screen-container">
+			<div className="screen-container screen-container-centered">
 				<ScreenTitle>RESCAN</ScreenTitle>
 				<Button onClick={this.onOpenClick} primary className="home-screen-btn">Open Inventory</Button>
 				<Button onClick={this.onCreateClick} primary className="home-screen-btn">Create Inventory</Button>

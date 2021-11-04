@@ -4,6 +4,7 @@ import ScreenTitle from '../ScreenTitle';
 import Button from '../Button';
 import InventoryManualMode from './InventoryModes/InventoryManualMode';
 import InventoryScanMode from './InventoryModes/InventoryScanMode';
+import BackButton from '../BackButton';
 
 const INVENTORY_MODE = {
 	MANUAL: 'MANUAL',
@@ -72,6 +73,7 @@ class InventoryScreen extends React.Component {
 
 		return (
 			<div className="screen-container">
+				<BackButton />
 				<ScreenTitle>{db.getDBName()}</ScreenTitle>
 				<div className="inventory-btn-container">
 					<Button onClick={this.switchManualMode} primary outline={manualBtnOutline}>Manual Mode</Button>

@@ -3,10 +3,10 @@ const { dialog } = require('@electron/remote');
 const { parse } = require('json2csv');
 
 module.exports = {
-	saveCSV: function saveCSV(obj) {
+	saveCSV: function saveCSV(obj, fields) {
 		let csvString;
 		try {
-			csvString = parse(obj, { excelStrings: true });
+			csvString = parse(obj, { excelStrings: true, fields });
 		}
 		catch {
 			return false;

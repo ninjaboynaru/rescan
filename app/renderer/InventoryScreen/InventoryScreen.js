@@ -11,7 +11,6 @@ const INVENTORY_MODE = {
 };
 
 const db = window.db;
-const csvSaver = window.csvSaver;
 
 class InventoryScreen extends React.Component {
 	constructor(props) {
@@ -20,7 +19,6 @@ class InventoryScreen extends React.Component {
 
 		this.switchManualMode = this.switchManualMode.bind(this);
 		this.switchScanMode = this.switchScanMode.bind(this);
-		this.saveCSV = this.saveCSV.bind(this);
 	}
 
 	componentDidMount() {
@@ -49,19 +47,6 @@ class InventoryScreen extends React.Component {
 		this.setState({ mode: INVENTORY_MODE.SCAN });
 	}
 
-	saveCSV() {
-		if (db.hasProducts() === false) {
-			return;
-		}
-
-		const products = db.getAllProducts();
-		const success = csvSaver.saveCSV(products, ['name', 'noun', 'nsn', 'count']);
-
-		if (success === false) {
-			this.setState({ dbError: true });
-		}
-	}
-
 	render() {
 		const { mode, dbLoading, dbError } = this.state;
 
@@ -72,26 +57,25 @@ class InventoryScreen extends React.Component {
 			return <p>LOADING DATABASE...</p>;
 		}
 
-		let modeText;
 		let modeUI;
+		let manualBtnOutline = false;
+		let scanBtnOutline = false;
 
 		if (mode === INVENTORY_MODE.MANUAL) {
-			modeText = 'Manual Mode';
+			manualBtnOutline = true;
 			modeUI = <InventoryManualMode dbError={this.dbError} />;
 		}
 		else if (mode === INVENTORY_MODE.SCAN) {
-			modeText = 'Scan Mode';
+			scanBtnOutline = true;
 			modeUI = <InventoryScanMode />;
 		}
 
 		return (
 			<div className="screen-container">
 				<ScreenTitle>{db.getDBName()}</ScreenTitle>
-				<p>{modeText}</p>
-				<div>
-					<Button onClick={this.switchManualMode}>Manual Mode</Button>
-					<Button onClick={this.switchScanMode}>Scan Mode</Button>
-					<Button onClick={this.saveCSV}>Save CSV</Button>
+				<div className="inventory-btn-container">
+					<Button onClick={this.switchManualMode} primary outline={manualBtnOutline}>Manual Mode</Button>
+					<Button onClick={this.switchScanMode} primary outline={scanBtnOutline}>Scan Mode</Button>
 				</div>
 				{modeUI}
 			</div>

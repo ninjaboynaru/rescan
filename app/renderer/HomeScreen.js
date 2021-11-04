@@ -32,11 +32,9 @@ class HomeScreen extends React.Component {
 	render() {
 		return (
 			<div className="screen-container">
-				<ScreenTitle>Inventory Selection</ScreenTitle>
-				<div>
-					<Button onClick={this.onOpenClick}>Open Inventory</Button>
-					<Button onClick={this.onCreateClick}>Create Inventory</Button>
-				</div>
+				<ScreenTitle>RESCAN</ScreenTitle>
+				<Button onClick={this.onOpenClick} primary className="home-screen-btn">Open Inventory</Button>
+				<Button onClick={this.onCreateClick} primary className="home-screen-btn">Create Inventory</Button>
 			</div>
 		);
 	}

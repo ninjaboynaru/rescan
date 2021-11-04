@@ -58,8 +58,8 @@ class EditInventoryScreen extends React.Component {
 			<div className="screen-container">
 				<ScreenTitle>New Inventory</ScreenTitle>
 				<div>
-					<TextInput value={name} onChange={this.onNameChange} label="Name" placeholder="Inventory Name" error={nameFieldErrorText} />
-					<Button onClick={this.saveInventory}>Save</Button>
+					<TextInput value={name} onChange={this.onNameChange} label="Name" placeholder="Inventory Name" error={nameFieldErrorText} fullWidth />
+					<Button onClick={this.saveInventory} primary>Save</Button>
 				</div>
 				{createErrorText}
 			</div>

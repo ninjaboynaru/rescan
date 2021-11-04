@@ -1,0 +1,30 @@
+.text-input {
+}
+
+.text-input label {
+    display: block;
+    font-size: 0.6rem;
+    margin-bottom: 0.2rem;
+    margin-left: 0.2rem;
+}
+
+.text-input input {
+	padding: 4px;
+	border: 1px solid;
+	border-color: var(--color-text);
+	border-radius: 2px;
+}
+
+.text-input__error {
+	color: var(--danger-color);
+	font-size: 0.6rem;
+	padding: 0;
+}
+
+.text-input-full-width {
+	width: 100%;
+}
+
+.text-input-full-width input {
+	min-width: 400px;
+}

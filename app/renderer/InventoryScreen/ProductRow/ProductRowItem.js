@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../../Button';
 
 function ProductRowItem({ children, label }) {
 	return (
@@ -9,14 +10,14 @@ function ProductRowItem({ children, label }) {
 	);
 }
 
-function ProductRowBtn({ children, onClick, danger }) {
-	let className = 'product-row__btn';
+function ProductRowBtn({ children, onClick, outline, danger }) {
+	let primary = true;
 
-	if (danger) {
-		className += ' product-row__btn--danger';
+	if (danger === true) {
+		primary = false;
 	}
 
-	return <button type="button" className={className} onClick={onClick}>{children}</button>;
+	return <Button className="product-row__btn" onClick={onClick} primary={primary} outline={outline} danger={danger}>{children}</Button>;
 }
 
 export { ProductRowItem, ProductRowBtn };

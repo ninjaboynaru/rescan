@@ -8,6 +8,7 @@ import TextInput from '../../TextInput';
 import PRODUCT_MODE from './PRODUCT_MODE';
 
 const db = window.db;
+const csvSaver = window.csvSaver;
 
 class InventoryManualMode extends React.Component {
 	constructor(props) {
@@ -18,6 +19,7 @@ class InventoryManualMode extends React.Component {
 		this.cancelEdit = this.cancelEdit.bind(this);
 		this.saveProduct = this.saveProduct.bind(this);
 		this.onSearchChange = this.onSearchChange.bind(this);
+		this.saveCSV = this.saveCSV.bind(this);
 	}
 
 	componentDidMount() {
@@ -92,6 +94,19 @@ class InventoryManualMode extends React.Component {
 		}
 	}
 
+	saveCSV() {
+		if (db.hasProducts() === false) {
+			return;
+		}
+
+		const products = db.getAllProducts();
+		const success = csvSaver.saveCSV(products, ['name', 'noun', 'nsn', 'count']);
+
+		if (success === false) {
+			this.props.dbError();
+		}
+	}
+
 	buildProductRows() {
 		const { displayProducts, productMode, productEditId } = this.state;
 
@@ -124,9 +139,12 @@ class InventoryManualMode extends React.Component {
 	render() {
 		return (
 			<>
-				<Button onClick={this.newProduct}>New Product</Button>
+				<div className="inventory-btn-container">
+					<Button onClick={this.newProduct} primary>New Product</Button>
+					<Button onClick={this.saveCSV} primary>Save</Button>
+				</div>
 				<div className="products-container">
-					<TextInput value={this.state.searchText} onChange={this.onSearchChange} placeholder="Search Products" />
+					<TextInput value={this.state.searchText} onChange={this.onSearchChange} placeholder="Search Products" fullWidth />
 					{this.buildProductRows()}
 				</div>
 			</>

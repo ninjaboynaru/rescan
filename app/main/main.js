@@ -4,8 +4,8 @@ const path = require('path');
 
 function createWindow() {
 	const win = new BrowserWindow({
-		width: 1000,
-		height: 800,
+		width: 900,
+		height: 600,
 		webPreferences: {
 			nodeIntegration: true,
 			preload: path.join(__dirname, '../preload/preload.js')
@@ -15,6 +15,7 @@ function createWindow() {
 	electronRemote.initialize();
 	electronRemote.enable(win.webContents);
 
+	// win.removeMenu();
 	win.loadFile('dist/index.html');
 	win.webContents.openDevTools();
 }

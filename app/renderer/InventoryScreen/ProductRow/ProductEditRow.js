@@ -162,7 +162,7 @@ class ProductEditRow extends React.Component {
 				<ProductRowItem label="NSN"><ProductRowTextInput value={nsn} placeholder="nsn" onChange={this.onNsnChange} error={nsnError} /></ProductRowItem>
 				<ProductRowItem label="Count"><ProductRowTextInput value={count} placeholder="count" onChange={this.onCountChange} /></ProductRowItem>
 				<ProductRowBtn onClick={this.onSaveClickInternal}><FontAwesomeIcon icon={faSave} /></ProductRowBtn>
-				<ProductRowBtn onClick={onCancelClick}><FontAwesomeIcon icon={faUndo} /></ProductRowBtn>
+				<ProductRowBtn onClick={onCancelClick} outline><FontAwesomeIcon icon={faUndo} /></ProductRowBtn>
 			</div>
 		);
 	}

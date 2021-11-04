@@ -157,7 +157,7 @@ class ProductEditRow extends React.Component {
 
 		return (
 			<div className="product-row">
-				<ProductRowItem label="Name"><ProductRowTextInput value={name} placeholder="name" onChange={this.onNameChange} error={nameError} /></ProductRowItem>
+				<ProductRowItem label="Common Name"><ProductRowTextInput value={name} placeholder="name" onChange={this.onNameChange} error={nameError} /></ProductRowItem>
 				<ProductRowItem label="Noun"><ProductRowTextInput value={noun} placeholder="noun" onChange={this.onNounChange} error={nounError} /></ProductRowItem>
 				<ProductRowItem label="NSN"><ProductRowTextInput value={nsn} placeholder="nsn" onChange={this.onNsnChange} error={nsnError} /></ProductRowItem>
 				<ProductRowItem label="Count"><ProductRowTextInput value={count} placeholder="count" onChange={this.onCountChange} /></ProductRowItem>

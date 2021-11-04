@@ -87,7 +87,7 @@ const db = new function() {
 
 	this.hasProducts = function dbHasProducts() {
 		return activeDB.obj.products.length >= 1;
-	}
+	};
 
 	this.getProductsByNSN = function getProductsByNSN(nsn) {
 		const matchingProducts = [];
@@ -99,7 +99,7 @@ const db = new function() {
 		});
 
 		return matchingProducts;
-	}
+	};
 
 	this.incrementByNSN = function incrementByNSN(nsn) {
 		const matchingProducts = [];
@@ -118,7 +118,7 @@ const db = new function() {
 		}
 
 		return matchingProducts;
-	}
+	};
 
 	function getProductIndex(productId) {
 		return activeDB.obj.products.findIndex((product) => product.id === productId);
@@ -133,7 +133,7 @@ const db = new function() {
 
 		activeDB.obj.products.splice(productIndex, 1);
 		return save();
-	}
+	};
 
 	this.updateProduct = function updateProduct(productId, newProduct) {
 		const productIndex = getProductIndex(productId);
@@ -145,13 +145,13 @@ const db = new function() {
 		activeDB.obj.products[productIndex] = newProduct;
 
 		return save();
-	}
+	};
 
 	this.createProduct = function createProduct(newProduct) {
 		activeDB.obj.products.push(newProduct);
 
 		return save();
-	}
+	};
 }();
 
 module.exports = db;

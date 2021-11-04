@@ -9,7 +9,8 @@
     "make": "electron-forge make",
     "build:renderer": "webpack",
     "watch:renderer": "npm run build:renderer -- --watch",
-    "lint:main": "esw app/main/**/*.js --color --fix --watch"
+    "lint:main": "esw app/main/**/*.js --color --fix --watch",
+    "lint:preload": "esw app/preload/**/*.js --color --fix --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

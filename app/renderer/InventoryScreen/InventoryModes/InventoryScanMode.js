@@ -5,6 +5,7 @@ import ProductEditRow from '../ProductRow/ProductEditRow';
 import PRODUCT_MODE from './PRODUCT_MODE';
 
 const db = window.db;
+const getFLISProduct = window.getFLISProduct;
 
 class InventoryScanMode extends React.Component {
 	constructor(props) {
@@ -90,7 +91,14 @@ class InventoryScanMode extends React.Component {
 		const { products, productMode, productEditId, productNewNSN } = this.state;
 
 		if (productMode === PRODUCT_MODE.NEW) {
-			return <ProductEditRow product={{ nsn: productNewNSN, count: 1 }} onSaveClick={this.saveProduct} onCancelClick={this.cancelEdit} />;
+			const flisProduct = getFLISProduct(productNewNSN);
+			let productNoun = '';
+
+			if (flisProduct !== null && flisProduct !== false) {
+				productNoun = flisProduct.noun;
+			}
+
+			return <ProductEditRow product={{ noun: productNoun, nsn: productNewNSN, count: 1 }} onSaveClick={this.saveProduct} onCancelClick={this.cancelEdit} />;
 		}
 		if (products === null || products.length === 0) {
 			return;

@@ -5,7 +5,7 @@ import Product from '../../../preload/product';
 import ProductRow from '../ProductRow/ProductRow';
 import ProductEditRow from '../ProductRow/ProductEditRow';
 import TextInput from '../../TextInput';
-import PRODUCT_MODE from './PRODUCT_MODE';
+import PRODUCT_MODE from './productMode';
 
 const db = window.db;
 const csvSaver = window.csvSaver;

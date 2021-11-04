@@ -1,8 +1,12 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import nsnBarcodeListener from '../../nsnBarcodeListener';
+import Button from '../../Button';
 import ProductRow from '../ProductRow/ProductRow';
 import ProductEditRow from '../ProductRow/ProductEditRow';
-import PRODUCT_MODE from './PRODUCT_MODE';
+
+import PRODUCT_MODE from './productMode';
 
 const db = window.db;
 const getFLISProduct = window.getFLISProduct;
@@ -11,8 +15,9 @@ class InventoryScanMode extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { products: null, productMode: null, productEditId: null, productNewNSN: null };
+		this.state = { products: null, productMode: null, productEditId: null, productNewNSN: null, audioFeedback: true };
 		this.scannedNSN = null;
+		this.audioElementRef = React.createRef();
 
 		this.onNSNScan = this.onNSNScan.bind(this);
 		this.saveProduct = this.saveProduct.bind(this);
@@ -28,7 +33,9 @@ class InventoryScanMode extends React.Component {
 	}
 
 	onNSNScan(nsn) {
-		if (this.state.productMode !== null) {
+		const { productMode, audioFeedback } = this.state;
+
+		if (productMode !== null) {
 			return;
 		}
 
@@ -43,6 +50,10 @@ class InventoryScanMode extends React.Component {
 		}
 		else {
 			this.setState({ products: matchingProducts });
+		}
+
+		if (audioFeedback === true) {
+			this.audioElementRef.current.play();
 		}
 
 		this.scannedNSN = nsn;
@@ -120,11 +131,31 @@ class InventoryScanMode extends React.Component {
 		});
 	}
 
+	buildAudioToggle() {
+		const { audioFeedback } = this.state;
+		const onClick = () => this.setState({ audioFeedback: !audioFeedback });
+		let btnOutline;
+		let icon;
+
+		if (audioFeedback === false) {
+			btnOutline = true;
+			icon = faVolumeMute;
+		}
+		else {
+			btnOutline = false;
+			icon = faVolumeUp;
+		}
+
+		return <Button primary outline={btnOutline} onClick={onClick}><FontAwesomeIcon icon={icon} /></Button>;
+	}
+
 	render() {
 		return (
 			<>
+				<div className="inventory-btn-container">{this.buildAudioToggle()}</div>
 				<div className="products-container">
 					{this.buildProductRows()}
+					<audio ref={this.audioElementRef}><source src="beep.wav" /></audio>
 				</div>
 			</>
 		);

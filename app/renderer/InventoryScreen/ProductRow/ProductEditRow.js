@@ -29,10 +29,6 @@ function validIntValue(value) {
 		return false;
 	}
 
-	if (value.trim().length === 0) {
-		return false;
-	}
-
 	const parsedNumber = Number(value);
 
 	if (Number.isNaN(parsedNumber) === true) {
@@ -52,6 +48,11 @@ function validIntValue(value) {
 	}
 
 	return true;
+}
+
+function validNSN(value) {
+	const regex = new RegExp('^([a-z0-9]){13}$', 'i');
+	return regex.test(value);
 }
 
 function ProductRowTextInput({ value, placeholder, onChange, error }) {
@@ -88,7 +89,7 @@ class ProductEditRow extends React.Component {
 
 		this.onNameChange = this.onNameChange.bind(this);
 		this.onNounChange = this.onNounChange.bind(this);
-		this.onNsnChange = this.onNsnChange.bind(this);
+		this.onNSNChange = this.onNSNChange.bind(this);
 		this.onCountChange = this.onCountChange.bind(this);
 
 		this.onSaveClickInternal = this.onSaveClickInternal.bind(this);
@@ -96,45 +97,61 @@ class ProductEditRow extends React.Component {
 
 	onNameChange(event) {
 		const value = event.target.value;
-		let nameError = null;
+		this.setState({ name: value });
 
-		if (validTextValue(value) === false) {
-			nameError = FIELD_ERROR_TEXT;
+		if (this.state.nameError) {
+			let nameError = null;
+			if (validTextValue(value) === false) {
+				nameError = FIELD_ERROR_TEXT;
+			}
+
+			this.setState({ nameError });
 		}
 
 		this.modifiedProduct.name = value;
-		this.setState({ name: value, nameError });
 	}
 
 	onNounChange(event) {
 		const value = event.target.value;
-		let nounError = null;
+		this.setState({ noun: value });
 
-		if (validTextValue(value) === false) {
-			nounError = FIELD_ERROR_TEXT;
+		if (this.state.nounError) {
+			let nounError = null;
+			if (validTextValue(value) === false) {
+				nounError = FIELD_ERROR_TEXT;
+			}
+
+			this.setState({ nounError });
 		}
 
 		this.modifiedProduct.noun = value;
-		this.setState({ noun: value, nounError });
 	}
 
-	onNsnChange(event) {
+	onNSNChange(event) {
 		const value = event.target.value;
-		let nsnError = null;
+		this.setState({ nsn: value });
 
-		if (validTextValue(value) === false) {
-			nsnError = FIELD_ERROR_TEXT;
+		if (this.state.nsnError) {
+			let nsnError = null;
+			if (validTextValue(value) === false || validNSN(value) === false) {
+				nsnError = FIELD_ERROR_TEXT;
+			}
+
+			this.setState({ nsnError });
 		}
 
 		this.modifiedProduct.nsn = value;
-		this.setState({ nsn: value, nsnError });
 	}
 
 	onCountChange(event) {
-		const value = event.target.value;
+		let value = event.target.value;
 
 		if (validIntValue(value) === false) {
 			return;
+		}
+
+		if (value === '') {
+			value = 0;
 		}
 
 		this.modifiedProduct.setCount(value);
@@ -142,9 +159,21 @@ class ProductEditRow extends React.Component {
 	}
 
 	onSaveClickInternal() {
-		const { nameError, nounError, nsnError } = this.state;
+		const { name, noun, nsn } = this.state;
+		let { nameError, nounError, nsnError } = this.state;
+
+		if (validTextValue(name) === false) {
+			nameError = FIELD_ERROR_TEXT;
+		}
+		if (validTextValue(noun) === false) {
+			nounError = FIELD_ERROR_TEXT;
+		}
+		if (validTextValue(nsn) === false || validNSN(nsn) === false) {
+			nsnError = FIELD_ERROR_TEXT;
+		}
 
 		if (nameError || nounError || nsnError) {
+			this.setState({ nameError, nounError, nsnError });
 			return;
 		}
 
@@ -159,7 +188,7 @@ class ProductEditRow extends React.Component {
 			<div className="product-row">
 				<ProductRowItem label="Common Name"><ProductRowTextInput value={name} placeholder="name" onChange={this.onNameChange} error={nameError} /></ProductRowItem>
 				<ProductRowItem label="Noun"><ProductRowTextInput value={noun} placeholder="noun" onChange={this.onNounChange} error={nounError} /></ProductRowItem>
-				<ProductRowItem label="NSN"><ProductRowTextInput value={nsn} placeholder="nsn" onChange={this.onNsnChange} error={nsnError} /></ProductRowItem>
+				<ProductRowItem label="NSN"><ProductRowTextInput value={nsn} placeholder="nsn" onChange={this.onNSNChange} error={nsnError} /></ProductRowItem>
 				<ProductRowItem label="Count"><ProductRowTextInput value={count} placeholder="count" onChange={this.onCountChange} /></ProductRowItem>
 				<ProductRowBtn onClick={this.onSaveClickInternal}><FontAwesomeIcon icon={faSave} /></ProductRowBtn>
 				<ProductRowBtn onClick={onCancelClick} outline><FontAwesomeIcon icon={faUndo} /></ProductRowBtn>

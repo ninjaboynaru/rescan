@@ -1,16 +1,3 @@
-
-These tools include unlimited use within IMD.
-
-Please inform the Program Management Office of any 
-software developed with these tools which is dependent on 
-the specific directory structure or disc file names.  This 
-way, you will be informed in advance of any changes which
-could impact your application.
-
-dlacontactcenter@dla.mil
-
-
-
 DECOMP
 ------------------------------------------------------------
 Decomp is a utility provided for extracting data via a

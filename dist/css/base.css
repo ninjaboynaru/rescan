@@ -58,4 +58,20 @@ body {
 	max-width: 200px;
 }
 
-.screen-
+.error-boundary {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.error-boundary__title {
+
+}
+
+.error-boundary__body {
+	width: 60%;
+	max-width: 550px;
+}

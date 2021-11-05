@@ -6,7 +6,7 @@ import Button from './Button';
 
 function BackButton({ history }) {
 	const onClick = () => history.push('/');
-	return <Button onClick={onClick} className="screen-back-btn" primary><FontAwesomeIcon icon={faArrowAltCircleLeft} /></Button>;
+	return <Button onClick={onClick} className="screen-top-btn" primary><FontAwesomeIcon icon={faArrowAltCircleLeft} /></Button>;
 }
 
 export default withRouter(BackButton);

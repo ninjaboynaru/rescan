@@ -141,7 +141,7 @@ class InventoryManualMode extends React.Component {
 			<>
 				<div className="inventory-btn-container">
 					<Button onClick={this.newProduct} primary>New Product</Button>
-					<Button onClick={this.saveCSV} primary>Save</Button>
+					<Button onClick={this.saveCSV} primary>Export CSV</Button>
 				</div>
 				<div className="products-container">
 					<TextInput value={this.state.searchText} onChange={this.onSearchChange} placeholder="Search Products" fullWidth />

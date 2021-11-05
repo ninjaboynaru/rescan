@@ -1,20 +1,18 @@
 :root {
-	--color-background: #ffffff;
-	--color-text: #2d3132;
+	--color-white: #ffffff;
+	--color-black: #2d3132;
 	--color-primary: #2aa45f;
 	--color-danger: #d4051d;
 
-	--color-btn-text: white;
+	--color-background: var(--color-white);
+	--color-text: var(--color-black);
+
+	--color-btn-text: var(--color-white);
 	--color-btn-primary: var(--color-primary);
 	--color-btn-danger: var(--color-danger);
 
-	--gray-color: #606060;
-	--danger-color: #da1e27;
-	--background-color: white;
-	--text-gray-color: var(--gray-color);
+	--color-modal-wrapper-background: var(--color-black);
+	--color-modal-content-background: var(--color-white);
 
 	--btn-hover-brightness: 95%;
-	--btn-text-color: white;
-	--btn-primary-color: #0f61fd;
-	--btn-danger-color: var(--danger-color);
 }

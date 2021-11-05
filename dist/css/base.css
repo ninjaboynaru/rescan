@@ -25,6 +25,27 @@ body {
 	justify-content: center;
 }
 
+.screen-top-buttons {
+	width: 100%;
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.screen-top-btn {
+	--margin: 1rem !important;
+
+	font-size: 1.2rem;
+	margin-left: var(--margin);
+	margin-top: var(--margin);
+}
+
+.screen-top-btn:only-child {
+	justify-self: flex-start;
+}
+
 .screen-title {
 	font-family: bungee-hairline;
 	justify-self: flex-start;
@@ -37,11 +58,4 @@ body {
 	max-width: 200px;
 }
 
-.screen-back-btn {
-	--margin: 1rem !important;
-
-	align-self: flex-start;
-	font-size: 1.2rem;
-	margin-left: var(--margin);
-	margin-top: var(--margin);
-}
+.screen-

@@ -105,7 +105,7 @@ class InventoryScanMode extends React.Component {
 			const flisProduct = getFLISProduct(productNewNSN);
 			let productNoun = '';
 
-			if (flisProduct !== null && flisProduct !== false) {
+			if (flisProduct !== null && flisProduct !== undefined && flisProduct !== false) {
 				productNoun = flisProduct.noun;
 			}
 

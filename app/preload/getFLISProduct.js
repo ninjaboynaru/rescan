@@ -1,11 +1,13 @@
+const path = require('path');
+const { app } = require('@electron/remote');
 const { execFileSync } = require('child_process');
 
 module.exports = function getFLISProduct(nsn) {
 	let outputBuffer;
 
 	const productNIIN = nsn.slice(4);
-	const fileLocation = 'data/decomp';
-	const tablesLocation = 'data/tables';
+	const fileLocation = path.join(app.getAppPath(), 'data/decomp');
+	const tablesLocation = path.join(app.getAppPath(), 'data/tables');
 	const sqlQuery = `SELECT ITEM_NAME,END_ITEM_NAME FROM P_FLIS_NSN WHERE NIIN='${productNIIN}'`;
 
 	try {

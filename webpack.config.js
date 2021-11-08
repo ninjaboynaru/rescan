@@ -1,10 +1,20 @@
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
+require('dotenv').config();
+
+const production = process.env.PRODUCTION;
+let mode = 'development';
+let devtool = 'source-map';
+
+if (production === 'true') {
+	mode = 'production';
+	devtool = false;
+}
 
 module.exports = {
-	mode: 'development',
+	mode,
+	devtool,
 	entry: path.join(__dirname, 'app/renderer/index.js'),
-	devtool: 'source-map',
 	target: 'electron-renderer',
 	output: {
 		path: path.join(__dirname, 'dist'),

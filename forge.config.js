@@ -1,25 +1,22 @@
 module.exports = {
-	"packagerConfig": {},
-	"makers": [
+	packagerConfig: {
+		name: 'rescan',
+		icon: 'notepad.ico',
+		ignore: [
+			'app/renderer',
+			'linting',
+			'eslintrc.js',
+			'.gitattributes',
+			'.gitignore',
+			'forge-config.js',
+			'README*',
+			'webpack.config.js',
+			'.env',
+		]
+	},
+	makers: [
 		{
-			"name": "@electron-forge/maker-squirrel",
-			"config": {
-				"name": "rescan"
-			}
-		},
-		{
-			"name": "@electron-forge/maker-zip",
-			"platforms": [
-				"darwin"
-			]
-		},
-		{
-			"name": "@electron-forge/maker-deb",
-			"config": {}
-		},
-		{
-			"name": "@electron-forge/maker-rpm",
-			"config": {}
+			name: '@electron-forge/maker-zip'
 		}
 	]
 }

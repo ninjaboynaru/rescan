@@ -1,5 +1,5 @@
 const fs = require('fs');
-const Product = require('./product.js');
+const Product = require('../all/product.js');
 
 const db = new function() {
 	const activeDB = {
@@ -22,6 +22,10 @@ const db = new function() {
 		}
 
 		if (Array.isArray(parsedDB.products) === false) {
+			return false;
+		}
+
+		if (Array.isArray(parsedDB.locations) === false) {
 			return false;
 		}
 
@@ -74,7 +78,7 @@ const db = new function() {
 	};
 
 	this.create = function create(filePath, invName) {
-		return save(filePath, { name: invName, products: [] });
+		return save(filePath, { name: invName, products: [], locations: [] });
 	};
 
 	this.getDBName = function getDBName() {
@@ -152,6 +156,30 @@ const db = new function() {
 
 		return save();
 	};
+
+	this.getLocations = function getLocations() {
+		return activeDB.obj.locations.map((location) => ({ ...location }));
+	};
+
+	this.getLocation = function getLocation(locationID) {
+		const foundLocation = activeDB.obj.locations.find((location) => location.id === locationID);
+
+		if (foundLocation) {
+			return { ...foundLocation };
+		}
+
+		return null;
+	};
+
+	this.getLocationName = function getLocationName(locationID) {
+		const location = this.getLocation(locationID);
+
+		if (location === null) {
+			return '';
+		}
+
+		return location.name;
+	}.bind(this);
 }();
 
 module.exports = db;

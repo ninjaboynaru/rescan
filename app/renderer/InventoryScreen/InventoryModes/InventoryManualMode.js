@@ -1,11 +1,11 @@
 import React from 'react';
 import Fuse from 'fuse.js';
 import Button from '../../Button';
-import Product from '../../../preload/product';
 import ProductRow from '../ProductRow/ProductRow';
 import ProductEditRow from '../ProductRow/ProductEditRow';
 import TextInput from '../../TextInput';
 import PRODUCT_MODE from './productMode';
+import Product from '../../../all/product';
 
 const db = window.db;
 const csvSaver = window.csvSaver;
@@ -116,14 +116,15 @@ class InventoryManualMode extends React.Component {
 
 		const rows = displayProducts.map((product) => {
 			let row;
+			const location = db.getLocation(product.locationID);
 
 			if (productMode === PRODUCT_MODE.EDIT && productEditId === product.id) {
-				row = <ProductEditRow key={product.id} product={product} onSaveClick={this.saveProduct} onCancelClick={this.cancelEdit} />;
+				row = <ProductEditRow key={product.id} product={product} location={location} onSaveClick={this.saveProduct} onCancelClick={this.cancelEdit} />;
 			}
 			else {
 				const onEditClick = () => this.editProduct(product.id);
 				const onDeleteClick = () => this.deleteProduct(product.id);
-				row = <ProductRow key={product.id} product={product} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />;
+				row = <ProductRow key={product.id} product={product} location={location} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />;
 			}
 
 			return row;

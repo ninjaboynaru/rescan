@@ -1,8 +1,13 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
-import { ProductRowItem, ProductRowBtn } from './ProductRowItem';
-import Product from '../../../preload/product.js';
+import ProductRowItem from './ProductRowItem';
+import ProductRowTextInput from './ProductRowTextInput';
+import ProductRowSearchList from './ProductRowSearchList';
+import ProductRowBtn from './ProductRowBtn';
+import Product from '../../../all/product';
+
+const db = window.db;
 
 const FIELD_ERROR_TEXT = 'Invalid Input';
 const MAX_TEXT_FIELD_LENGTH = 42;
@@ -55,19 +60,8 @@ function validNSN(value) {
 	return regex.test(value);
 }
 
-function ProductRowTextInput({ value, placeholder, onChange, error }) {
-	let errorUi;
-
-	if (error) {
-		errorUi = <p className="product-row__item__input-error">{error}</p>;
-	}
-
-	return (
-		<div className="product-row__item__input-container">
-			<input className="product-row__item__input" type="text" value={value} placeholder={placeholder} onChange={onChange} />
-			{errorUi}
-		</div>
-	);
+function getLocationOptions() {
+	return db.getLocations().map((location) => ({ value: location.id, label: location.name }));
 }
 
 class ProductEditRow extends React.Component {
@@ -81,6 +75,7 @@ class ProductEditRow extends React.Component {
 			noun: this.modifiedProduct.noun,
 			nsn: this.modifiedProduct.nsn,
 			count: this.modifiedProduct.count,
+			locationID: this.modifiedProduct.locationID,
 
 			nameError: null,
 			nounError: null,
@@ -91,6 +86,7 @@ class ProductEditRow extends React.Component {
 		this.onNounChange = this.onNounChange.bind(this);
 		this.onNSNChange = this.onNSNChange.bind(this);
 		this.onCountChange = this.onCountChange.bind(this);
+		this.onLocationChange = this.onLocationChange.bind(this);
 
 		this.onSaveClickInternal = this.onSaveClickInternal.bind(this);
 	}
@@ -158,6 +154,11 @@ class ProductEditRow extends React.Component {
 		this.setState({ count: value });
 	}
 
+	onLocationChange(locationOption) {
+		this.setState({ locationID: locationOption.value });
+		this.modifiedProduct.locationID = locationOption.value;
+	}
+
 	onSaveClickInternal() {
 		const { name, noun, nsn } = this.state;
 		let { nameError, nounError, nsnError } = this.state;
@@ -181,8 +182,10 @@ class ProductEditRow extends React.Component {
 	}
 
 	render() {
-		const { name, noun, nsn, count, nameError, nounError, nsnError } = this.state;
+		const { name, noun, nsn, count, locationID, nameError, nounError, nsnError } = this.state;
 		const { onCancelClick } = this.props;
+		const locationOptions = getLocationOptions();
+		const defaultLocationValue = locationOptions.find((locationOption) => locationOption.value === locationID);
 
 		return (
 			<div className="product-row">
@@ -190,6 +193,9 @@ class ProductEditRow extends React.Component {
 				<ProductRowItem label="Noun"><ProductRowTextInput value={noun} placeholder="noun" onChange={this.onNounChange} error={nounError} /></ProductRowItem>
 				<ProductRowItem label="NSN"><ProductRowTextInput value={nsn} placeholder="nsn" onChange={this.onNSNChange} error={nsnError} /></ProductRowItem>
 				<ProductRowItem label="Count"><ProductRowTextInput value={count} placeholder="count" onChange={this.onCountChange} /></ProductRowItem>
+				<ProductRowItem label="Location">
+					<ProductRowSearchList defaultValue={defaultLocationValue} options={locationOptions} onChange={this.onLocationChange} />
+				</ProductRowItem>
 				<ProductRowBtn onClick={this.onSaveClickInternal}><FontAwesomeIcon icon={faSave} /></ProductRowBtn>
 				<ProductRowBtn onClick={onCancelClick} outline><FontAwesomeIcon icon={faUndo} /></ProductRowBtn>
 			</div>

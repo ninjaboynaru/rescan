@@ -1,9 +1,6 @@
 import React from 'react';
 import { faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
-import DataRow from '../DataList/DataRow/DataRow';
-import DataItem from '../DataList/DataRow/DataItem';
-import DataRowTextInput from '../DataList/DataRowContent/DataRowTextInput';
-import DataRowButton from '../DataList/DataRowContent/DataRowButton';
+import { DataRow, DataItem, DataRowTextInput, DataRowButton } from '../DataList';
 
 class LocationEditDataRow extends React.Component {
 	constructor(props) {

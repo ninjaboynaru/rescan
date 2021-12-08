@@ -1,9 +1,6 @@
 import React from 'react';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import DataRow from '../DataList/DataRow/DataRow';
-import DataItem from '../DataList/DataRow/DataItem';
-import DataRowText from '../DataList/DataRowContent/DataRowText';
-import DataRowButton from '../DataList/DataRowContent/DataRowButton';
+import { DataRow, DataItem, DataRowText, DataRowButton } from '../DataList';
 
 function LocationDataRow({ location, onEditClick, onDeletClick }) {
 	return (

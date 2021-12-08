@@ -1,11 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import withModal from '../withModal';
+import ScreenHeader from '../ScreenHeader';
 import ScreenTitle from '../ScreenTitle';
 import Button from '../Button';
 import InventoryManualMode from './InventoryModes/InventoryManualMode';
 import InventoryScanMode from './InventoryModes/InventoryScanMode';
-import BackButton from '../BackButton';
 import HelpButton from '../HelpButton';
 
 const INVENTORY_MODE = {
@@ -110,10 +110,9 @@ button in order to export the inventory as an Excel spreadsheet
 
 		return (
 			<div className="screen-container">
-				<div className="screen-top-buttons">
-					<BackButton />
+				<ScreenHeader>
 					<HelpButton className="screen-top-btn" onClick={this.openModal} />
-				</div>
+				</ScreenHeader>
 				<ScreenTitle>{db.getDBName()}</ScreenTitle>
 				<div className="inventory-btn-container">
 					<Button onClick={this.switchManualMode} primary outline={manualBtnOutline}>Manual Mode</Button>

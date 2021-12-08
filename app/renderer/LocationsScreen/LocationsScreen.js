@@ -1,13 +1,10 @@
-/* eslint-disable react/no-unused-state */
-
 import React from 'react';
 import Fuse from 'fuse.js';
 import Location from '../../all/location';
 import ScreenTitle from '../ScreenTitle';
-import BackButton from '../BackButton';
+import ScreenHeader from '../ScreenHeader';
 import Button from '../Button';
-import DataListContainer from '../DataList/DataListContainer';
-import DataListButtonHeader from '../DataList/DataListButtonHeader';
+import { DataListContainer, DataListButtonHeader } from '../DataList';
 import LocationDataRow from './LocationDataRow';
 import LocationEditDataRow from './LocationEditDataRow';
 import EDIT_MODE from '../EDIT_MODE';
@@ -130,9 +127,7 @@ class LocationScreen extends React.Component {
 
 		return (
 			<div className="screen-container">
-				<div className="screen-top-buttons">
-					<BackButton />
-				</div>
+				<ScreenHeader />
 				<ScreenTitle>Locations</ScreenTitle>
 				<DataListButtonHeader>
 					<Button onClick={this.createLocation} primary>New Location</Button>

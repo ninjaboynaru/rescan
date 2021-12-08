@@ -1,9 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import ScreenHeader from './ScreenHeader';
 import ScreenTitle from './ScreenTitle';
 import TextInput from './TextInput';
 import Button from './Button';
-import BackButton from './BackButton';
 
 class EditInventoryScreen extends React.Component {
 	constructor(props) {
@@ -57,9 +57,7 @@ class EditInventoryScreen extends React.Component {
 
 		return (
 			<div className="screen-container">
-				<div className="screen-top-buttons">
-					<BackButton />
-				</div>
+				<ScreenHeader />
 				<ScreenTitle>New Inventory</ScreenTitle>
 				<div>
 					<TextInput value={name} onChange={this.onNameChange} label="Name" placeholder="Inventory Name" error={nameFieldErrorText} fullWidth />

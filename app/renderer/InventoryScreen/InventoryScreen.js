@@ -3,8 +3,9 @@ import { withRouter } from 'react-router';
 import ScreenHeader from '../ScreenHeader';
 import ScreenTitle from '../ScreenTitle';
 import Button from '../Button';
-import InventoryManualMode from './InventoryModes/InventoryManualMode';
-import InventoryScanMode from './InventoryModes/InventoryScanMode';
+import { DataListButtonHeader } from '../DataList';
+import InventoryManualMode from './InventoryManualMode';
+import InventoryScanMode from './InventoryScanMode';
 
 const INVENTORY_MODE = {
 	MANUAL: 'MANUAL',
@@ -108,11 +109,11 @@ class InventoryScreen extends React.Component {
 			<div className="screen-container">
 				<ScreenHeader showBackButton helpModalComponent={HelpInfo} />
 				<ScreenTitle>{db.getDBName()}</ScreenTitle>
-				<div className="inventory-btn-container">
+				<DataListButtonHeader>
 					<Button onClick={this.switchManualMode} primary outline={manualBtnOutline}>Manual Mode</Button>
 					<Button onClick={this.switchScanMode} primary outline={scanBtnOutline}>Scan Mode</Button>
 					<Button onClick={this.openLocationsScreen} primary>Locations</Button>
-				</div>
+				</DataListButtonHeader>
 				{modeUI}
 			</div>
 		);

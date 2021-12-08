@@ -1,11 +1,7 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
-import ProductRowItem from './ProductRowItem';
-import ProductRowTextInput from '../ProductRowContent/ProductRowTextInput';
-import ProductRowSearchList from '../ProductRowContent/ProductRowSearchList';
-import ProductRowBtn from '../ProductRowContent/ProductRowBtn';
-import Product from '../../../all/product';
+import Product from '../../all/product';
+import { DataRow, DataItem, DataRowTextInput, DataRowSearchList, DataRowButton } from '../DataList';
 
 const db = window.db;
 
@@ -72,8 +68,7 @@ class ProductEditRow extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const existingProduct = this.props.product || {};
-		this.modifiedProduct = new Product(existingProduct);
+		this.modifiedProduct = new Product(this.props.product);
 		this.state = {
 			name: this.modifiedProduct.name,
 			noun: this.modifiedProduct.noun,
@@ -95,8 +90,7 @@ class ProductEditRow extends React.Component {
 		this.onSaveClickInternal = this.onSaveClickInternal.bind(this);
 	}
 
-	onNameChange(event) {
-		const value = event.target.value;
+	onNameChange(value) {
 		this.setState({ name: value });
 
 		if (this.state.nameError) {
@@ -111,8 +105,7 @@ class ProductEditRow extends React.Component {
 		this.modifiedProduct.name = value;
 	}
 
-	onNounChange(event) {
-		const value = event.target.value;
+	onNounChange(value) {
 		this.setState({ noun: value });
 
 		if (this.state.nounError) {
@@ -127,8 +120,7 @@ class ProductEditRow extends React.Component {
 		this.modifiedProduct.noun = value;
 	}
 
-	onNSNChange(event) {
-		const value = event.target.value;
+	onNSNChange(value) {
 		this.setState({ nsn: value });
 
 		if (this.state.nsnError) {
@@ -143,9 +135,7 @@ class ProductEditRow extends React.Component {
 		this.modifiedProduct.nsn = value;
 	}
 
-	onCountChange(event) {
-		let value = event.target.value;
-
+	onCountChange(value) {
 		if (validIntValue(value) === false) {
 			return;
 		}
@@ -192,17 +182,17 @@ class ProductEditRow extends React.Component {
 		const defaultLocationValue = locationOptions.find((locationOption) => locationOption.value === locationID);
 
 		return (
-			<div className="product-row">
-				<ProductRowItem label="Common Name"><ProductRowTextInput value={name} placeholder="name" onChange={this.onNameChange} error={nameError} /></ProductRowItem>
-				<ProductRowItem label="Noun"><ProductRowTextInput value={noun} placeholder="noun" onChange={this.onNounChange} error={nounError} /></ProductRowItem>
-				<ProductRowItem label="NSN"><ProductRowTextInput value={nsn} placeholder="nsn" onChange={this.onNSNChange} error={nsnError} /></ProductRowItem>
-				<ProductRowItem label="Count"><ProductRowTextInput value={count} placeholder="count" onChange={this.onCountChange} /></ProductRowItem>
-				<ProductRowItem label="Location">
-					<ProductRowSearchList defaultValue={defaultLocationValue} options={locationOptions} onChange={this.onLocationChange} />
-				</ProductRowItem>
-				<ProductRowBtn onClick={this.onSaveClickInternal}><FontAwesomeIcon icon={faSave} /></ProductRowBtn>
-				<ProductRowBtn onClick={onCancelClick} outline><FontAwesomeIcon icon={faUndo} /></ProductRowBtn>
-			</div>
+			<DataRow>
+				<DataItem label="Common Name"><DataRowTextInput value={name} placeholder="name" onChange={this.onNameChange} error={nameError} /></DataItem>
+				<DataItem label="Noun"><DataRowTextInput value={noun} placeholder="noun" onChange={this.onNounChange} error={nounError} /></DataItem>
+				<DataItem label="NSN"><DataRowTextInput value={nsn} placeholder="nsn" onChange={this.onNSNChange} error={nsnError} /></DataItem>
+				<DataItem label="Count"><DataRowTextInput value={count} placeholder="count" onChange={this.onCountChange} /></DataItem>
+				<DataItem label="Location">
+					<DataRowSearchList defaultValue={defaultLocationValue} options={locationOptions} onChange={this.onLocationChange} />
+				</DataItem>
+				<DataRowButton onClick={this.onSaveClickInternal} icon={faSave} />
+				<DataRowButton onClick={onCancelClick} outline icon={faUndo} />
+			</DataRow>
 		);
 	}
 }

@@ -1,12 +1,12 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
-import nsnBarcodeListener from '../../nsnBarcodeListener';
-import Button from '../../Button';
-import ProductRow from '../ProductRow/ProductRow';
-import ProductEditRow from '../ProductRow/ProductEditRow';
-
-import PRODUCT_MODE from './productMode';
+import { DataListContainer, DataListButtonHeader } from '../DataList';
+import ProductDataRow from './ProductDataRow';
+import ProductEditDataRow from './ProductEditDataRow';
+import nsnBarcodeListener from '../nsnBarcodeListener';
+import Button from '../Button';
+import EDIT_MODE from '../EDIT_MODE';
 
 const db = window.db;
 const getFLISProduct = window.getFLISProduct;
@@ -15,7 +15,7 @@ class InventoryScanMode extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { products: null, productMode: null, productEditId: null, productNewNSN: null, audioFeedback: true };
+		this.state = { products: null, editMode: null, productEditId: null, productNewNSN: null, audioFeedback: true };
 		this.scannedNSN = null;
 		this.audioElementRef = React.createRef();
 
@@ -33,9 +33,9 @@ class InventoryScanMode extends React.Component {
 	}
 
 	onNSNScan(nsn) {
-		const { productMode, audioFeedback } = this.state;
+		const { editMode, audioFeedback } = this.state;
 
-		if (productMode !== null) {
+		if (editMode !== null) {
 			return;
 		}
 
@@ -46,7 +46,7 @@ class InventoryScanMode extends React.Component {
 		}
 
 		if (matchingProducts.length === 0) {
-			this.setState({ products: null, productMode: PRODUCT_MODE.NEW, productNewNSN: nsn });
+			this.setState({ products: null, editMode: EDIT_MODE.NEW, productNewNSN: nsn });
 		}
 		else {
 			this.setState({ products: matchingProducts });
@@ -60,13 +60,13 @@ class InventoryScanMode extends React.Component {
 	}
 
 	saveProduct(product) {
-		const { productMode, productEditId } = this.state;
+		const { editMode, productEditId } = this.state;
 		let success = false;
 
-		if (productMode === PRODUCT_MODE.NEW) {
+		if (editMode === EDIT_MODE.NEW) {
 			success = db.createProduct(product);
 		}
-		else if (productMode === PRODUCT_MODE.EDIT) {
+		else if (editMode === EDIT_MODE.MODIFY) {
 			success = db.updateProduct(productEditId, product);
 		}
 
@@ -75,12 +75,12 @@ class InventoryScanMode extends React.Component {
 		}
 		else {
 			const products = db.getProductsByNSN(this.scannedNSN);
-			this.setState({ products, productMode: null, productEditId: null, productNewNSN: null });
+			this.setState({ products, editMode: null, productEditId: null, productNewNSN: null });
 		}
 	}
 
 	editProduct(productId) {
-		this.setState({ productMode: PRODUCT_MODE.EDIT, productEditId: productId });
+		this.setState({ editMode: EDIT_MODE.MODIFY, productEditId: productId });
 	}
 
 	deleteProduct(productId) {
@@ -95,13 +95,13 @@ class InventoryScanMode extends React.Component {
 	}
 
 	cancelEdit() {
-		this.setState({ productMode: null, productEditId: null, productNewNSN: null });
+		this.setState({ editMode: null, productEditId: null, productNewNSN: null });
 	}
 
 	buildProductRows() {
-		const { products, productMode, productEditId, productNewNSN } = this.state;
+		const { products, editMode, productEditId, productNewNSN } = this.state;
 
-		if (productMode === PRODUCT_MODE.NEW) {
+		if (editMode === EDIT_MODE.NEW) {
 			const flisProduct = getFLISProduct(productNewNSN);
 			let productNoun = '';
 
@@ -109,7 +109,7 @@ class InventoryScanMode extends React.Component {
 				productNoun = flisProduct.noun;
 			}
 
-			return <ProductEditRow product={{ noun: productNoun, nsn: productNewNSN, count: 1 }} onSaveClick={this.saveProduct} onCancelClick={this.cancelEdit} />;
+			return <ProductEditDataRow product={{ noun: productNoun, nsn: productNewNSN, count: 1 }} onSaveClick={this.saveProduct} onCancelClick={this.cancelEdit} />;
 		}
 		if (products === null || products.length === 0) {
 			return;
@@ -118,13 +118,13 @@ class InventoryScanMode extends React.Component {
 		return products.map((product) => {
 			let row;
 
-			if (productMode === PRODUCT_MODE.EDIT && product.id === productEditId) {
-				row = <ProductEditRow key={product.id} product={product} onSaveClick={this.saveProduct} onCencelClick={this.cancelEdit} />;
+			if (editMode === EDIT_MODE.MODIFY && product.id === productEditId) {
+				row = <ProductEditDataRow key={product.id} product={product} onSaveClick={this.saveProduct} onCencelClick={this.cancelEdit} />;
 			}
 			else {
 				const onEditClick = () => this.editProduct(product.id);
 				const onDeleteClick = () => this.deleteProduct(product.id);
-				row = <ProductRow key={product.id} product={product} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />;
+				row = <ProductDataRow key={product.id} product={product} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />;
 			}
 
 			return row;
@@ -152,11 +152,11 @@ class InventoryScanMode extends React.Component {
 	render() {
 		return (
 			<>
-				<div className="inventory-btn-container">{this.buildAudioToggle()}</div>
-				<div className="products-container">
+				<DataListButtonHeader className="inventory-btn-container">{this.buildAudioToggle()}</DataListButtonHeader>
+				<DataListContainer>
 					{this.buildProductRows()}
 					<audio ref={this.audioElementRef}><source src="beep.wav" /></audio>
-				</div>
+				</DataListContainer>
 			</>
 		);
 	}

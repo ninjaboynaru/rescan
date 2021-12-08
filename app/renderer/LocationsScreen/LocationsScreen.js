@@ -132,7 +132,7 @@ class LocationScreen extends React.Component {
 				<DataListButtonHeader>
 					<Button onClick={this.createLocation} primary>New Location</Button>
 				</DataListButtonHeader>
-				<DataListContainer showSearchBar onSearchChange={this.onSearchChange}>
+				<DataListContainer showSearchBar searchPlaceholder="Search Locations" onSearchChange={this.onSearchChange}>
 					{this.buildDataList()}
 				</DataListContainer>
 			</div>

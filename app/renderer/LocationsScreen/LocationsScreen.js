@@ -127,7 +127,7 @@ class LocationScreen extends React.Component {
 
 		return (
 			<div className="screen-container">
-				<ScreenHeader />
+				<ScreenHeader showBackButton />
 				<ScreenTitle>Locations</ScreenTitle>
 				<DataListButtonHeader>
 					<Button onClick={this.createLocation} primary>New Location</Button>

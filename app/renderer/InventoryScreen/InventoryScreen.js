@@ -1,12 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import withModal from '../withModal';
 import ScreenHeader from '../ScreenHeader';
 import ScreenTitle from '../ScreenTitle';
 import Button from '../Button';
 import InventoryManualMode from './InventoryModes/InventoryManualMode';
 import InventoryScanMode from './InventoryModes/InventoryScanMode';
-import HelpButton from '../HelpButton';
 
 const INVENTORY_MODE = {
 	MANUAL: 'MANUAL',
@@ -14,6 +12,34 @@ const INVENTORY_MODE = {
 };
 
 const db = window.db;
+
+function HelpInfo() {
+	return (
+		<div>
+			<p>ReScan allows you to either manualy create products or scan them in</p>
+			<hr />
+			<p>Products must have an NSN (13 digit) barcode in order to be scanned</p>
+			<hr />
+			<p>
+After scanning a new product, you must fill in a
+				<b> Common Name</b>
+				{' '}
+for it and press the save button
+			</p>
+			<hr />
+			<p>Scanning the same NSN multiple times will increase that products count. You do not need to press save again on already scanned products</p>
+			<hr />
+			<p>For both manualy entered, and scanned products, all fileds must be filled in before saving</p>
+			<hr />
+			<p>
+Click the
+				<b> export</b>
+				{' '}
+button in order to export the inventory as an Excel spreadsheet
+			</p>
+		</div>
+	);
+}
 
 class InventoryScreen extends React.Component {
 	constructor(props) {
@@ -23,7 +49,6 @@ class InventoryScreen extends React.Component {
 		this.switchManualMode = this.switchManualMode.bind(this);
 		this.switchScanMode = this.switchScanMode.bind(this);
 		this.openLocationsScreen = this.openLocationsScreen.bind(this);
-		this.openModal = this.openModal.bind(this);
 	}
 
 	componentDidMount() {
@@ -56,35 +81,6 @@ class InventoryScreen extends React.Component {
 		this.props.history.push('/locations');
 	}
 
-	openModal() {
-		this.props.modal.open('Help', () => (
-			<div>
-				<p>ReScan allows you to either manualy create products or scan them in</p>
-				<hr />
-				<p>Products must have an NSN (13 digit) barcode in order to be scanned</p>
-				<hr />
-				<p>
-After scanning a new product, you must fill in a
-					<b> Common Name</b>
-					{' '}
-for it and press the save button
-				</p>
-				<hr />
-				<p>Scanning the same NSN multiple times will increase that products count. You do not need to press save again on already scanned products</p>
-				<hr />
-				<p>For both manualy entered, and scanned products, all fileds must be filled in before saving</p>
-				<hr />
-				<p>
-Click the
-					<b> export</b>
-					{' '}
-button in order to export the inventory as an Excel spreadsheet
-				</p>
-			</div>
-
-		));
-	}
-
 	render() {
 		const { mode, dbLoading, dbError } = this.state;
 
@@ -110,9 +106,7 @@ button in order to export the inventory as an Excel spreadsheet
 
 		return (
 			<div className="screen-container">
-				<ScreenHeader>
-					<HelpButton className="screen-top-btn" onClick={this.openModal} />
-				</ScreenHeader>
+				<ScreenHeader showBackButton helpModalComponent={HelpInfo} />
 				<ScreenTitle>{db.getDBName()}</ScreenTitle>
 				<div className="inventory-btn-container">
 					<Button onClick={this.switchManualMode} primary outline={manualBtnOutline}>Manual Mode</Button>
@@ -125,4 +119,4 @@ button in order to export the inventory as an Excel spreadsheet
 	}
 }
 
-export default withRouter(withModal(InventoryScreen));
+export default withRouter(InventoryScreen);

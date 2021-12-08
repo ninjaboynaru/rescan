@@ -29,7 +29,7 @@ class LocationEditDataRow extends React.Component {
 			<DataRow>
 				<DataItem label="Name"><DataRowTextInput value={this.state.name} placeholder="Name" onChange={this.onNameChange} /></DataItem>
 				<DataRowButton icon={faSave} onClick={this.onSave} />
-				<DataRowButton icon={faUndo} onClick={this.props.onCanelClick} outline />
+				<DataRowButton icon={faUndo} onClick={this.props.onCancelClick} outline />
 			</DataRow>
 		);
 	}

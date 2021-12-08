@@ -172,6 +172,12 @@ const db = new function() {
 		return save();
 	};
 
+	this.createLocation = function createLocation(newLocation) {
+		activeDB.obj.locations.push(newLocation);
+
+		return save();
+	};
+
 	this.getLocations = function getLocations() {
 		return activeDB.obj.locations.map((location) => ({ ...location }));
 	};

@@ -2,11 +2,15 @@
 
 import React from 'react';
 import Fuse from 'fuse.js';
+import Location from '../../all/location';
 import ScreenTitle from '../ScreenTitle';
 import BackButton from '../BackButton';
+import Button from '../Button';
 import DataListContainer from '../DataList/DataListContainer';
+import DataListButtonHeader from '../DataList/DataListButtonHeader';
 import LocationDataRow from './LocationDataRow';
 import LocationEditDataRow from './LocationEditDataRow';
+import EDIT_MODE from '../EDIT_MODE';
 
 const db = window.db;
 
@@ -14,11 +18,12 @@ class LocationScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { locations: null, displayLocations: null, searchText: '', editingLocationID: null, dbError: false };
+		this.state = { locations: null, displayLocations: null, searchText: '', editMode: null, editingLocationID: null, dbError: false };
 		this.onSearchChange = this.onSearchChange.bind(this);
 		this.editLocation = this.editLocation.bind(this);
+		this.createLocation = this.createLocation.bind(this);
 		this.deleteLocation = this.deleteLocation.bind(this);
-		this.saveEdit = this.saveEdit.bind(this);
+		this.saveLocation = this.saveLocation.bind(this);
 		this.cancelEdit = this.cancelEdit.bind(this);
 	}
 
@@ -51,11 +56,23 @@ class LocationScreen extends React.Component {
 	}
 
 	editLocation(editingLocationID) {
-		this.setState({ editingLocationID });
+		this.setState({ editingLocationID, editMode: EDIT_MODE.MODIFY });
 	}
 
-	saveEdit(modifiedLocation) {
-		const success = db.updateLocation(this.state.editingLocationID, modifiedLocation);
+	createLocation() {
+		this.setState({ editMode: EDIT_MODE.NEW });
+	}
+
+	saveLocation(modifiedLocation) {
+		const { editMode, editingLocationID } = this.state;
+		let success;
+
+		if (editMode === EDIT_MODE.MODIFY) {
+			success = db.updateLocation(editingLocationID, modifiedLocation);
+		}
+		else if (editMode === EDIT_MODE.NEW) {
+			success = db.createLocation(modifiedLocation);
+		}
 
 		if (success === false) {
 			return this.setState({ dbError: true });
@@ -66,7 +83,7 @@ class LocationScreen extends React.Component {
 	}
 
 	cancelEdit() {
-		this.setState({ editingLocationID: null });
+		this.setState({ editingLocationID: null, editMode: null });
 	}
 
 	deleteLocation(locationID) {
@@ -81,19 +98,29 @@ class LocationScreen extends React.Component {
 	}
 
 	buildDataList() {
-		if (!this.state.displayLocations) {
+		const { displayLocations, editMode, editingLocationID } = this.state;
+		if (!displayLocations) {
 			return;
 		}
 
-		return this.state.displayLocations.map((location) => {
-			if (this.state.editingLocationID === location.id) {
-				return <LocationEditDataRow key={location.id} location={location} onSaveClick={this.saveEdit} onCancelClick={this.cancelEdit} />;
+		const dataRows = displayLocations.map((location) => {
+			if (editingLocationID === location.id) {
+				return <LocationEditDataRow key={location.id} location={location} onSaveClick={this.saveLocation} onCancelClick={this.cancelEdit} />;
 			}
 
 			const onEditClick = () => this.editLocation(location.id);
 			const onDeleteClick = () => this.deleteLocation(location.id);
 			return <LocationDataRow key={location.id} location={location} onEditClick={onEditClick} onDeletClick={onDeleteClick} />;
 		});
+
+		if (editMode === EDIT_MODE.NEW) {
+			const newLocation = new Location({});
+			dataRows.push(
+				<LocationEditDataRow key="NEW" location={newLocation} onSaveClick={this.saveLocation} onCancelClick={this.cancelEdit} />
+			);
+		}
+
+		return dataRows;
 	}
 
 	render() {
@@ -107,6 +134,9 @@ class LocationScreen extends React.Component {
 					<BackButton />
 				</div>
 				<ScreenTitle>Locations</ScreenTitle>
+				<DataListButtonHeader>
+					<Button onClick={this.createLocation} primary>New Location</Button>
+				</DataListButtonHeader>
 				<DataListContainer showSearchBar onSearchChange={this.onSearchChange}>
 					{this.buildDataList()}
 				</DataListContainer>

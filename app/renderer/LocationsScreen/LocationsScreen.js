@@ -33,7 +33,7 @@ class LocationScreen extends React.Component {
 
 	onSearchChange(searchText) {
 		this.setState({ searchText });
-		this.updateDisplayProducts(searchText);
+		this.updateDisplayLocations(searchText);
 	}
 
 	loadLocations() {
@@ -50,7 +50,7 @@ class LocationScreen extends React.Component {
 		else {
 			const searchKeys = ['name'];
 			const fuse = new Fuse(this.state.locations, { keys: searchKeys });
-			const searchResults = fuse.search(searchText).map((result) => ({ ...result }));
+			const searchResults = fuse.search(searchText).map((result) => result.item);
 			this.setState({ displayLocations: searchResults });
 		}
 	}

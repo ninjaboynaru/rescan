@@ -11,15 +11,15 @@ export default function withModal(Component) {
 
 			this.open = this.open.bind(this);
 			this.close = this.close.bind(this);
-			this.bodyFunction = () => {};
+			this.BodyComponent = () => {};
 		}
 
-		setBodyFunction(fn) {
-			this.bodyFunction = fn;
+		setBodyComponent(fn) {
+			this.BodyComponent = fn;
 		}
 
-		open(title, bodyFunction) {
-			this.bodyFunction = bodyFunction;
+		open(title, BodyComponent) {
+			this.BodyComponent = BodyComponent;
 			this.setState({ show: true, title });
 		}
 
@@ -39,7 +39,7 @@ export default function withModal(Component) {
 								<p className="modal-content__title">{title}</p>
 								<Button danger className="modal-content__exit-btn" onClick={this.close}><FontAwesomeIcon icon={faTimes} /></Button>
 							</div>
-							<div className="modal-content__body">{this.bodyFunction()}</div>
+							<div className="modal-content__body">{this.BodyComponent()}</div>
 						</div>
 					</div>
 				);

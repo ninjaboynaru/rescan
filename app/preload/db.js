@@ -124,8 +124,12 @@ const db = new function() {
 		return matchingProducts;
 	};
 
-	function getProductIndex(productId) {
-		return activeDB.obj.products.findIndex((product) => product.id === productId);
+	function getProductIndex(productID) {
+		return activeDB.obj.products.findIndex((product) => product.id === productID);
+	}
+
+	function getLocationIndex(locationID) {
+		return activeDB.obj.locations.findIndex((location) => location.id === locationID);
 	}
 
 	this.deleteProduct = function deleteProduct(productId) {
@@ -136,6 +140,17 @@ const db = new function() {
 		}
 
 		activeDB.obj.products.splice(productIndex, 1);
+		return save();
+	};
+
+	this.deleteLocation = function deleteLocation(locationID) {
+		const locationIndex = getLocationIndex(locationID);
+
+		if (locationIndex === -1) {
+			return false;
+		}
+
+		activeDB.obj.locations.splice(locationIndex, 1);
 		return save();
 	};
 
@@ -180,6 +195,18 @@ const db = new function() {
 
 		return location.name;
 	}.bind(this);
+
+	this.updateLocation = function updateLocation(locationID, newLocation) {
+		const locationIndex = getLocationIndex(locationID);
+
+		if (locationIndex === -1) {
+			return false;
+		}
+
+		activeDB.obj.locations[locationIndex] = newLocation;
+
+		return save();
+	};
 }();
 
 module.exports = db;

@@ -22,6 +22,7 @@ class InventoryScreen extends React.Component {
 
 		this.switchManualMode = this.switchManualMode.bind(this);
 		this.switchScanMode = this.switchScanMode.bind(this);
+		this.openLocationsScreen = this.openLocationsScreen.bind(this);
 		this.openModal = this.openModal.bind(this);
 	}
 
@@ -49,6 +50,10 @@ class InventoryScreen extends React.Component {
 
 	switchScanMode() {
 		this.setState({ mode: INVENTORY_MODE.SCAN });
+	}
+
+	openLocationsScreen() {
+		this.props.history.push('/locations');
 	}
 
 	openModal() {
@@ -113,6 +118,7 @@ button in order to export the inventory as an Excel spreadsheet
 				<div className="inventory-btn-container">
 					<Button onClick={this.switchManualMode} primary outline={manualBtnOutline}>Manual Mode</Button>
 					<Button onClick={this.switchScanMode} primary outline={scanBtnOutline}>Scan Mode</Button>
+					<Button onClick={this.openLocationsScreen} primary>Locations</Button>
 				</div>
 				{modeUI}
 			</div>

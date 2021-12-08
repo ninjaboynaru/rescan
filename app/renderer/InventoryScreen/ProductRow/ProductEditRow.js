@@ -2,9 +2,9 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
 import ProductRowItem from './ProductRowItem';
-import ProductRowTextInput from './ProductRowTextInput';
-import ProductRowSearchList from './ProductRowSearchList';
-import ProductRowBtn from './ProductRowBtn';
+import ProductRowTextInput from '../ProductRowContent/ProductRowTextInput';
+import ProductRowSearchList from '../ProductRowContent/ProductRowSearchList';
+import ProductRowBtn from '../ProductRowContent/ProductRowBtn';
 import Product from '../../../all/product';
 
 const db = window.db;

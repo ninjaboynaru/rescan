@@ -5,7 +5,7 @@ import ProductRowItem from './ProductRowItem';
 import ProductRowBtn from '../ProductRowContent/ProductRowBtn';
 
 export default function ProductRow({ product, location, onEditClick, onDeleteClick }) {
-	let locationName = '----';
+	let locationName = 'None';
 
 	if (location) {
 		locationName = location.name;

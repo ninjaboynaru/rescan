@@ -1,14 +1,12 @@
 import React from 'react';
 import { faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
 import Product from '../../all/product';
+import { buildLocationListOptions } from './util';
 import { DataRow, DataItem, DataRowTextInput, DataRowSearchList, DataRowButton } from '../DataList';
-
-const db = window.db;
 
 const FIELD_ERROR_TEXT = 'Invalid Input';
 const MAX_TEXT_FIELD_LENGTH = 42;
 const MAX_COUNT = 1000000;
-const LOCATION_NONE_OPTION = { value: -1, label: 'None' };
 
 function validTextValue(value) {
 	if (typeof value !== 'string') {
@@ -55,13 +53,6 @@ function validIntValue(value) {
 function validNSN(value) {
 	const regex = new RegExp('^([a-z0-9]){13}$', 'i');
 	return regex.test(value);
-}
-
-function getLocationOptions() {
-	const locationOptions = db.getLocations().map((location) => ({ value: location.id, label: location.name }));
-	locationOptions.unshift(LOCATION_NONE_OPTION);
-
-	return locationOptions;
 }
 
 class ProductEditRow extends React.Component {
@@ -178,7 +169,7 @@ class ProductEditRow extends React.Component {
 	render() {
 		const { name, noun, nsn, count, locationID, nameError, nounError, nsnError } = this.state;
 		const { onCancelClick } = this.props;
-		const locationOptions = getLocationOptions();
+		const locationOptions = buildLocationListOptions(false, true);
 		const defaultLocationValue = locationOptions.find((locationOption) => locationOption.value === locationID);
 
 		return (

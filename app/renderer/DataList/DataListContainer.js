@@ -1,5 +1,6 @@
 import React from 'react';
 import TextInput from '../TextInput';
+import DataListFilters from './DataListFilters';
 
 class DataListContainer extends React.Component {
 	constructor(props) {
@@ -17,15 +18,21 @@ class DataListContainer extends React.Component {
 
 	render() {
 		let searchBar = null;
-		const { children, searchPlaceholder } = this.props;
+		let filterUI = null;
+		const { children, showSearchBar, searchPlaceholder, filterOptions } = this.props;
 
-		if (this.props.showSearchBar === true) {
+		if (showSearchBar === true) {
 			searchBar = <TextInput value={this.state.searchText} onChange={this.onSearchChange} placeholder={searchPlaceholder} fullWidth />;
+		}
+
+		if (filterOptions) {
+			filterUI = <DataListFilters filterOptions={filterOptions} />;
 		}
 
 		return (
 			<div className="datalist-container">
 				{searchBar}
+				{filterUI}
 				{children}
 			</div>
 		);

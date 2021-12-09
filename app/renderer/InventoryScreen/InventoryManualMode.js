@@ -2,7 +2,9 @@ import React from 'react';
 import Fuse from 'fuse.js';
 import Product from '../../all/product';
 import Button from '../Button';
+import { buildLocationListOptions, LOCATION_ALL_OPTION } from './util';
 import { DataListContainer, DataListButtonHeader } from '../DataList';
+import DATA_FILTER_TYPE from '../DataList/DATA_FILTER_TYPE';
 import ProductDataRow from './ProductDataRow';
 import ProductEditDataRow from './ProductEditDataRow';
 import EDIT_MODE from '../EDIT_MODE';
@@ -13,12 +15,13 @@ const csvSaver = window.csvSaver;
 class InventoryManualMode extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { products: null, displayProducts: null, searchText: '', editMode: null, productEditId: null };
+		this.state = { products: null, displayProducts: null, searchText: '', locationFilter: null, editMode: null, productEditId: null };
 
 		this.createProduct = this.createProduct.bind(this);
 		this.cancelEdit = this.cancelEdit.bind(this);
 		this.saveProduct = this.saveProduct.bind(this);
 		this.onSearchChange = this.onSearchChange.bind(this);
+		this.onLocationFilterChange = this.onLocationFilterChange.bind(this);
 		this.saveCSV = this.saveCSV.bind(this);
 	}
 
@@ -27,20 +30,15 @@ class InventoryManualMode extends React.Component {
 	}
 
 	onSearchChange(searchText) {
-		this.setState({ searchText });
-		this.updateDisplayProducts(searchText);
+		this.setState({ searchText }, () => {
+			this.updateDisplayProducts();
+		});
 	}
 
-	updateDisplayProducts(searchTerm) {
-		if (searchTerm.trim().length === 0) {
-			this.setState((prevState) => ({ displayProducts: prevState.products }));
-		}
-		else {
-			const searchKeys = ['name', 'noun', 'nsn'];
-			const fuse = new Fuse(this.state.products, { keys: searchKeys });
-			const searchResults = fuse.search(searchTerm).map((result) => new Product(result.item));
-			this.setState({ displayProducts: searchResults });
-		}
+	onLocationFilterChange(option) {
+		this.setState({ locationFilter: option }, () => {
+			this.updateDisplayProducts();
+		});
 	}
 
 	loadProducts() {
@@ -48,6 +46,23 @@ class InventoryManualMode extends React.Component {
 		this.setState({ products }, () => {
 			this.updateDisplayProducts(this.state.searchText);
 		});
+	}
+
+	updateDisplayProducts() {
+		const { products, searchText, locationFilter } = this.state;
+		let toShow = products;
+
+		if (locationFilter && locationFilter.value !== LOCATION_ALL_OPTION.value) {
+			toShow = toShow.filter((product) => product.locationID === locationFilter.value);
+		}
+
+		if (searchText.trim().length !== 0) {
+			const searchKeys = ['name', 'noun', 'nsn'];
+			const fuse = new Fuse(toShow, { keys: searchKeys });
+			toShow = fuse.search(searchText).map((result) => result.item);
+		}
+
+		this.setState({ displayProducts: toShow });
 	}
 
 	createProduct() {
@@ -132,6 +147,20 @@ class InventoryManualMode extends React.Component {
 		return dataRows;
 	}
 
+	buildFilterOptions() {
+		const options = [];
+
+		options.push({
+			id: 'LOCATION',
+			type: DATA_FILTER_TYPE.SEARCH_LIST,
+			label: 'Location',
+			options: buildLocationListOptions(true, true),
+			onChange: this.onLocationFilterChange
+		});
+
+		return options;
+	}
+
 	render() {
 		return (
 			<>
@@ -139,7 +168,7 @@ class InventoryManualMode extends React.Component {
 					<Button onClick={this.createProduct} primary>New Product</Button>
 					<Button onClick={this.saveCSV} primary>Export CSV</Button>
 				</DataListButtonHeader>
-				<DataListContainer showSearchBar searchPlaceholder="Search Products" onSearchChange={this.onSearchChange}>
+				<DataListContainer filterOptions={this.buildFilterOptions()} showSearchBar searchPlaceholder="Search Products" onSearchChange={this.onSearchChange}>
 					{this.buildDataList()}
 				</DataListContainer>
 			</>

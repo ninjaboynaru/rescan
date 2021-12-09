@@ -7,4 +7,6 @@ function Location({ name, id }) {
 	this.name = name || '';
 }
 
+Location.NONE_ID = -1;
+
 module.exports = Location;

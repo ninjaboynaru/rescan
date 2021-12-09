@@ -1,4 +1,5 @@
 const shortid = require('short-uuid');
+const Location = require('./location');
 
 const idGenerator = shortid('0123456789');
 
@@ -9,7 +10,7 @@ class Product {
 		this.nsn = nsn || '';
 		this.count = count || 0;
 		this.noun = noun || '';
-		this.locationID = locationID || -1;
+		this.locationID = locationID || Location.NONE_ID;
 	}
 
 	toObject() {

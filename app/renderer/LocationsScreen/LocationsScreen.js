@@ -1,5 +1,6 @@
 import React from 'react';
 import Fuse from 'fuse.js';
+import withModal from '../withModal';
 import Location from '../../all/location';
 import ScreenTitle from '../ScreenTitle';
 import ScreenHeader from '../ScreenHeader';
@@ -19,7 +20,7 @@ class LocationScreen extends React.Component {
 		this.onSearchChange = this.onSearchChange.bind(this);
 		this.editLocation = this.editLocation.bind(this);
 		this.createLocation = this.createLocation.bind(this);
-		this.deleteLocation = this.deleteLocation.bind(this);
+		this.deleteLocationConfirmation = this.deleteLocationConfirmation.bind(this);
 		this.saveLocation = this.saveLocation.bind(this);
 		this.cancelEdit = this.cancelEdit.bind(this);
 	}
@@ -94,6 +95,40 @@ class LocationScreen extends React.Component {
 		}
 	}
 
+	deleteLocationConfirmation(locationID) {
+		const locationUseCount = db.getLocaitonUseCount(locationID);
+
+		if (locationUseCount === 0) {
+			return this.deleteLocation(locationID);
+		}
+
+		const confirmDelete = () => {
+			this.props.modal.close();
+			this.deleteLocation(locationID);
+		};
+
+		const cancelDelete = () => this.props.modal.close();
+
+		this.props.modal.open('Are You Sure?', () => (
+			<div>
+				<p>Are you sure you want to delete this location?</p>
+				<p>
+					{locationUseCount}
+					{' '}
+Products use this locaiton and will be reset to having
+					{' '}
+					<b>None</b>
+					{' '}
+location
+				</p>
+				<div>
+					<Button onClick={confirmDelete} danger>Yes</Button>
+					<Button onClick={cancelDelete} primary>No</Button>
+				</div>
+			</div>
+		));
+	}
+
 	buildDataList() {
 		const { displayLocations, editMode, editingLocationID } = this.state;
 		if (!displayLocations) {
@@ -106,7 +141,7 @@ class LocationScreen extends React.Component {
 			}
 
 			const onEditClick = () => this.editLocation(location.id);
-			const onDeleteClick = () => this.deleteLocation(location.id);
+			const onDeleteClick = () => this.deleteLocationConfirmation(location.id);
 			return <LocationDataRow key={location.id} location={location} onEditClick={onEditClick} onDeletClick={onDeleteClick} />;
 		});
 
@@ -140,4 +175,4 @@ class LocationScreen extends React.Component {
 	}
 }
 
-export default LocationScreen;
+export default withModal(LocationScreen);

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const Location = require('../all/location.js');
 const Product = require('../all/product.js');
 
 const db = new function() {
@@ -150,6 +151,12 @@ const db = new function() {
 			return false;
 		}
 
+		for (const product of activeDB.obj.products) {
+			if (product.locationID === locationID) {
+				product.locationID = Location.NONE_ID;
+			}
+		}
+
 		activeDB.obj.locations.splice(locationIndex, 1);
 		return save();
 	};
@@ -201,6 +208,10 @@ const db = new function() {
 
 		return location.name;
 	}.bind(this);
+
+	this.getLocaitonUseCount = function getLocaitonUseCount(locationID) {
+		return activeDB.obj.products.filter((product) => product.locationID === locationID).length;
+	};
 
 	this.updateLocation = function updateLocation(locationID, newLocation) {
 		const locationIndex = getLocationIndex(locationID);

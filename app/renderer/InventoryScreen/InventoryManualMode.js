@@ -1,5 +1,6 @@
 import React from 'react';
 import Fuse from 'fuse.js';
+import withModal from '../withModal';
 import Product from '../../all/product';
 import Button from '../Button';
 import { buildLocationListOptions, LOCATION_ALL_OPTION } from './util';
@@ -88,6 +89,27 @@ class InventoryManualMode extends React.Component {
 		}
 	}
 
+	deleteProductConfirmation(productID) {
+		const confirmDelete = () => {
+			this.props.modal.close();
+			this.deleteProduct(productID);
+		};
+		const cancelDelete = () => this.props.modal.close();
+
+		this.props.modal.open('Are You Sure?', () => (
+			<div>
+				<p>Are you sure you want to delete this Product?</p>
+				<p>
+					This can not be undone!
+				</p>
+				<div>
+					<Button onClick={confirmDelete} danger>Yes</Button>
+					<Button onClick={cancelDelete} primary>No</Button>
+				</div>
+			</div>
+		));
+	}
+
 	saveProduct(product) {
 		const { editMode, productEditId } = this.state;
 		let success = false;
@@ -136,7 +158,7 @@ class InventoryManualMode extends React.Component {
 			}
 
 			const onEditClick = () => this.editProduct(product.id);
-			const onDeleteClick = () => this.deleteProduct(product.id);
+			const onDeleteClick = () => this.deleteProductConfirmation(product.id);
 			return <ProductDataRow key={product.id} product={product} location={location} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />;
 		});
 
@@ -176,4 +198,4 @@ class InventoryManualMode extends React.Component {
 	}
 }
 
-export default InventoryManualMode;
+export default withModal(InventoryManualMode);

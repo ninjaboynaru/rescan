@@ -20,7 +20,6 @@ class LocationScreen extends React.Component {
 		this.onSearchChange = this.onSearchChange.bind(this);
 		this.editLocation = this.editLocation.bind(this);
 		this.createLocation = this.createLocation.bind(this);
-		this.deleteLocationConfirmation = this.deleteLocationConfirmation.bind(this);
 		this.saveLocation = this.saveLocation.bind(this);
 		this.cancelEdit = this.cancelEdit.bind(this);
 	}
@@ -111,7 +110,7 @@ class LocationScreen extends React.Component {
 
 		this.props.modal.open('Are You Sure?', () => (
 			<div>
-				<p>Are you sure you want to delete this location?</p>
+				<p>Are you sure you want to delete this Location?</p>
 				<p>
 					{locationUseCount}
 					{' '}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import withModal from '../withModal';
 import { DataListContainer, DataListButtonHeader } from '../DataList';
 import ProductDataRow from './ProductDataRow';
 import ProductEditDataRow from './ProductEditDataRow';
@@ -94,6 +95,27 @@ class InventoryScanMode extends React.Component {
 		}
 	}
 
+	deleteProductConfirmation(productID) {
+		const confirmDelete = () => {
+			this.props.modal.close();
+			this.deleteProduct(productID);
+		};
+		const cancelDelete = () => this.props.modal.close();
+
+		this.props.modal.open('Are You Sure?', () => (
+			<div>
+				<p>Are you sure you want to delete this Product?</p>
+				<p>
+					This can not be undone!
+				</p>
+				<div>
+					<Button onClick={confirmDelete} danger>Yes</Button>
+					<Button onClick={cancelDelete} primary>No</Button>
+				</div>
+			</div>
+		));
+	}
+
 	cancelEdit() {
 		this.setState({ editMode: null, productEditId: null, productNewNSN: null });
 	}
@@ -123,7 +145,7 @@ class InventoryScanMode extends React.Component {
 			}
 			else {
 				const onEditClick = () => this.editProduct(product.id);
-				const onDeleteClick = () => this.deleteProduct(product.id);
+				const onDeleteClick = () => this.deleteProductConfirmation(product.id);
 				row = <ProductDataRow key={product.id} product={product} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />;
 			}
 
@@ -162,4 +184,4 @@ class InventoryScanMode extends React.Component {
 	}
 }
 
-export default InventoryScanMode;
+export default withModal(InventoryScanMode);

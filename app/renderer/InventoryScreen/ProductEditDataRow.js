@@ -174,9 +174,9 @@ class ProductEditRow extends React.Component {
 
 		return (
 			<DataRow>
-				<DataItem label="Common Name"><DataRowTextInput value={name} placeholder="name" onChange={this.onNameChange} error={nameError} /></DataItem>
-				<DataItem label="Noun"><DataRowTextInput value={noun} placeholder="noun" onChange={this.onNounChange} error={nounError} /></DataItem>
-				<DataItem label="NSN"><DataRowTextInput value={nsn} placeholder="nsn" onChange={this.onNSNChange} error={nsnError} /></DataItem>
+				<DataItem label="Common Name" error={nameError}><DataRowTextInput value={name} placeholder="name" onChange={this.onNameChange} /></DataItem>
+				<DataItem label="Noun" error={nounError}><DataRowTextInput value={noun} placeholder="noun" onChange={this.onNounChange} /></DataItem>
+				<DataItem label="NSN" error={nsnError}><DataRowTextInput value={nsn} placeholder="nsn" onChange={this.onNSNChange} /></DataItem>
 				<DataItem label="Count"><DataRowTextInput value={count} placeholder="count" onChange={this.onCountChange} /></DataItem>
 				<DataItem label="Location">
 					<DataRowSearchList defaultValue={defaultLocationValue} options={locationOptions} onChange={this.onLocationChange} />

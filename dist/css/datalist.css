@@ -24,6 +24,10 @@
 	
 }
 
+.datalist-row__item-error {
+	color: var(--color-danger);
+}
+
 .datalist-row__btn{
 	
 }

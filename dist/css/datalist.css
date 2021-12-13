@@ -1,49 +1,93 @@
-
-
 .datalist-container {
-
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
 }
 
 .datalist-button-header {
-	
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.datalist-container, .datalist-button-header {
+	width: 100%;
+	max-width: 600px;
+}
+
+.datalist-button-header__btn {
+	flex-grow: 1;
 }
 
 .datalist-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 
+	width: 100%;
+	margin-bottom: 1rem;
+	border-bottom: 1px solid var(--color-black);
 }
 
 .datalist-row__item {
-
+	margin-right: 0.25rem;
+	min-width: 16%;
 }
 
 .datalist-row__item-label {
+	font-size: 0.6rem;
+	font-weight: bold;
+	margin: 0;
+	margin-bottom: 0.5em;
 
 }
 
 .datalist-row__item-content {
-	
+	font-size: 0.6rem;
 }
 
 .datalist-row__item-error {
-	color: var(--color-danger);
+    color: var(--color-danger);
+    padding: 0;
+    margin: 0;
+    font-size: 0.5rem;
+    font-weight: bold;
+}
+
+.datalist-row__btn-group {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
 }
 
 .datalist-row__btn{
-	
+	font-size: 0.6rem;
 }
 
 .datalist-row__text {
-
+	margin: 0;
 }
 
 .datalist-row__text-input {
-
 }
 
 .datalist-row__text-input input {
-
+	width: 100%;
+	font-size: inherit;
 }
 
 .datalist-row__searchlist {
 	
+}
+
+.datalist-row__searchlist__control {
+	min-height: 0px !important;
+}
+
+.datalist-row__searchlist__indicator {
+	padding: 0px !important;
 }

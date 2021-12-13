@@ -1,6 +1,6 @@
 import React from 'react';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { DataRow, DataItem, DataRowText, DataRowButton } from '../DataList';
+import { DataRow, DataItem, DataRowText, DataRowButtonGroup, DataRowButton } from '../DataList';
 
 export default function ProductRow({ product, location, onEditClick, onDeleteClick }) {
 	let locationName = 'None';
@@ -16,8 +16,10 @@ export default function ProductRow({ product, location, onEditClick, onDeleteCli
 			<DataItem label="NSN"><DataRowText>{product.nsn}</DataRowText></DataItem>
 			<DataItem label="Count"><DataRowText>{product.count}</DataRowText></DataItem>
 			<DataItem label="Location"><DataRowText>{locationName}</DataRowText></DataItem>
-			<DataRowButton onClick={onEditClick} icon={faEdit} />
-			<DataRowButton danger onClick={onDeleteClick} icon={faTrash} />
+			<DataRowButtonGroup>
+				<DataRowButton onClick={onEditClick} icon={faEdit} />
+				<DataRowButton danger onClick={onDeleteClick} icon={faTrash} />
+			</DataRowButtonGroup>
 		</DataRow>
 	);
 }

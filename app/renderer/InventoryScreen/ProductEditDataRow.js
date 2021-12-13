@@ -2,10 +2,10 @@ import React from 'react';
 import { faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
 import Product from '../../all/product';
 import { buildLocationListOptions } from './util';
-import { DataRow, DataItem, DataRowTextInput, DataRowSearchList, DataRowButton } from '../DataList';
+import { DataRow, DataItem, DataRowTextInput, DataRowSearchList, DataRowButtonGroup, DataRowButton } from '../DataList';
 
 const FIELD_ERROR_TEXT = 'Invalid Input';
-const MAX_TEXT_FIELD_LENGTH = 42;
+const MAX_TEXT_FIELD_LENGTH = 200;
 const MAX_COUNT = 1000000;
 
 function validTextValue(value) {
@@ -181,8 +181,10 @@ class ProductEditRow extends React.Component {
 				<DataItem label="Location">
 					<DataRowSearchList defaultValue={defaultLocationValue} options={locationOptions} onChange={this.onLocationChange} />
 				</DataItem>
-				<DataRowButton onClick={this.onSaveClickInternal} icon={faSave} />
-				<DataRowButton onClick={onCancelClick} outline icon={faUndo} />
+				<DataRowButtonGroup>
+					<DataRowButton onClick={this.onSaveClickInternal} icon={faSave} />
+					<DataRowButton onClick={onCancelClick} outline icon={faUndo} />
+				</DataRowButtonGroup>
 			</DataRow>
 		);
 	}

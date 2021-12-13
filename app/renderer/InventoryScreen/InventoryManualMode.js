@@ -187,8 +187,8 @@ class InventoryManualMode extends React.Component {
 		return (
 			<>
 				<DataListButtonHeader>
-					<Button onClick={this.createProduct} primary>New Product</Button>
-					<Button onClick={this.saveCSV} primary>Export CSV</Button>
+					<Button className="datalist-button-header__btn" onClick={this.createProduct} primary>New Product</Button>
+					<Button className="datalist-button-header__btn" onClick={this.saveCSV} primary>Export CSV</Button>
 				</DataListButtonHeader>
 				<DataListContainer filterOptions={this.buildFilterOptions()} showSearchBar searchPlaceholder="Search Products" onSearchChange={this.onSearchChange}>
 					{this.buildDataList()}

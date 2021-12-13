@@ -21,6 +21,13 @@
 	flex-grow: 1;
 }
 
+.datalist-info-header {
+	width: 100%;
+	margin: 1rem 0;
+	font-style: italic;
+	color: var(--color-primary);
+}
+
 .datalist-row {
 	display: flex;
 	flex-direction: row;

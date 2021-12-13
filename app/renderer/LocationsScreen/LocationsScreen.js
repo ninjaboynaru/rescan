@@ -5,7 +5,7 @@ import Location from '../../all/location';
 import ScreenTitle from '../ScreenTitle';
 import ScreenHeader from '../ScreenHeader';
 import Button from '../Button';
-import { DataListContainer, DataListButtonHeader } from '../DataList';
+import { DataListContainer, DataListButtonHeader, DataListInfoHeader } from '../DataList';
 import LocationDataRow from './LocationDataRow';
 import LocationEditDataRow from './LocationEditDataRow';
 import EDIT_MODE from '../EDIT_MODE';
@@ -155,8 +155,15 @@ location
 	}
 
 	render() {
-		if (this.state.dbError === true) {
+		const { dbError, locations, displayLocations } = this.state;
+		let infoHeaderContent = null;
+
+		if (dbError === true) {
 			return <p>Were sorry. An error has occured. Please restart the program or contact support</p>;
+		}
+
+		if (locations && displayLocations) {
+			infoHeaderContent = `Showing ${displayLocations.length} out of ${locations.length} locations`;
 		}
 
 		return (
@@ -167,6 +174,9 @@ location
 					<Button onClick={this.createLocation} primary>New Location</Button>
 				</DataListButtonHeader>
 				<DataListContainer showSearchBar searchLabel="Search" searchPlaceholder="Search Locations" onSearchChange={this.onSearchChange}>
+					<DataListInfoHeader>
+						{infoHeaderContent}
+					</DataListInfoHeader>
 					{this.buildDataList()}
 				</DataListContainer>
 			</div>

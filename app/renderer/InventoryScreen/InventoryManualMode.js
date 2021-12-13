@@ -4,7 +4,7 @@ import withModal from '../withModal';
 import Product from '../../all/product';
 import Button from '../Button';
 import { buildLocationListOptions, LOCATION_ALL_OPTION } from './util';
-import { DataListContainer, DataListButtonHeader } from '../DataList';
+import { DataListContainer, DataListButtonHeader, DataListInfoHeader } from '../DataList';
 import DATA_FILTER_TYPE from '../DataList/DATA_FILTER_TYPE';
 import ProductDataRow from './ProductDataRow';
 import ProductEditDataRow from './ProductEditDataRow';
@@ -184,6 +184,13 @@ class InventoryManualMode extends React.Component {
 	}
 
 	render() {
+		const { products, displayProducts } = this.state;
+		let infoHeaderContent = null;
+
+		if (products && displayProducts) {
+			infoHeaderContent = `Showing ${displayProducts.length} out of ${products.length} products`;
+		}
+
 		return (
 			<>
 				<DataListButtonHeader>
@@ -191,6 +198,9 @@ class InventoryManualMode extends React.Component {
 					<Button className="datalist-button-header__btn" onClick={this.saveCSV} primary>Export CSV</Button>
 				</DataListButtonHeader>
 				<DataListContainer filterOptions={this.buildFilterOptions()} showSearchBar searchLabel="Search" searchPlaceholder="Search Products" onSearchChange={this.onSearchChange}>
+					<DataListInfoHeader>
+						{infoHeaderContent}
+					</DataListInfoHeader>
 					{this.buildDataList()}
 				</DataListContainer>
 			</>

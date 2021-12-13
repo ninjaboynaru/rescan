@@ -166,7 +166,7 @@ location
 				<DataListButtonHeader>
 					<Button onClick={this.createLocation} primary>New Location</Button>
 				</DataListButtonHeader>
-				<DataListContainer showSearchBar searchPlaceholder="Search Locations" onSearchChange={this.onSearchChange}>
+				<DataListContainer showSearchBar searchLabel="Search" searchPlaceholder="Search Locations" onSearchChange={this.onSearchChange}>
 					{this.buildDataList()}
 				</DataListContainer>
 			</div>

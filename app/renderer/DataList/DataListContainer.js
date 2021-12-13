@@ -19,10 +19,10 @@ class DataListContainer extends React.Component {
 	render() {
 		let searchBar = null;
 		let filterUI = null;
-		const { children, showSearchBar, searchPlaceholder, filterOptions } = this.props;
+		const { children, showSearchBar, searchLabel, searchPlaceholder, filterOptions } = this.props;
 
 		if (showSearchBar === true) {
-			searchBar = <TextInput value={this.state.searchText} onChange={this.onSearchChange} placeholder={searchPlaceholder} fullWidth />;
+			searchBar = <TextInput value={this.state.searchText} onChange={this.onSearchChange} label={searchLabel} placeholder={searchPlaceholder} fullWidth />;
 		}
 
 		if (filterOptions) {

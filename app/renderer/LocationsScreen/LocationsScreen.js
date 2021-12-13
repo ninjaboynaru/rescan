@@ -135,13 +135,15 @@ location
 		}
 
 		const dataRows = displayLocations.map((location) => {
+			const locationUseCount = db.getLocaitonUseCount(location.id);
+
 			if (editingLocationID === location.id) {
-				return <LocationEditDataRow key={location.id} location={location} onSaveClick={this.saveLocation} onCancelClick={this.cancelEdit} />;
+				return <LocationEditDataRow key={location.id} location={location} useCount={locationUseCount} onSaveClick={this.saveLocation} onCancelClick={this.cancelEdit} />;
 			}
 
 			const onEditClick = () => this.editLocation(location.id);
 			const onDeleteClick = () => this.deleteLocationConfirmation(location.id);
-			return <LocationDataRow key={location.id} location={location} onEditClick={onEditClick} onDeletClick={onDeleteClick} />;
+			return <LocationDataRow key={location.id} location={location} useCount={locationUseCount} onEditClick={onEditClick} onDeletClick={onDeleteClick} />;
 		});
 
 		if (editMode === EDIT_MODE.NEW) {

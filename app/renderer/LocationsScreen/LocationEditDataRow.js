@@ -1,6 +1,6 @@
 import React from 'react';
 import { faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
-import { DataRow, DataItem, DataRowTextInput, DataRowButtonGroup, DataRowButton } from '../DataList';
+import { DataRow, DataItem, DataRowText, DataRowTextInput, DataRowButtonGroup, DataRowButton } from '../DataList';
 
 const MAX_NAME_LENGTH = 200;
 
@@ -40,9 +40,12 @@ class LocationEditDataRow extends React.Component {
 
 	render() {
 		const { name, nameError } = this.state;
+		const useCount = this.props.useCount;
+
 		return (
 			<DataRow>
 				<DataItem label="Name" error={nameError}><DataRowTextInput value={name} placeholder="Name" onChange={this.onNameChange} /></DataItem>
+				<DataItem label="Products Owned"><DataRowText>{useCount}</DataRowText></DataItem>
 				<DataRowButtonGroup>
 					<DataRowButton icon={faSave} onClick={this.onSave} />
 					<DataRowButton icon={faUndo} onClick={this.props.onCancelClick} outline />

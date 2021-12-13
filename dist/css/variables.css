@@ -3,6 +3,7 @@
 	--color-black: #2d3132;
 	--color-primary: #2aa45f;
 	--color-danger: #d4051d;
+	--color-on-primary: var(--color-white);
 
 	--color-background: var(--color-white);
 	--color-text: var(--color-black);

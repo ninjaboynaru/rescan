@@ -85,6 +85,7 @@
 }
 
 .datalist-row__searchlist__control {
+	border-radius: 0 !important;
 	min-height: 0px !important;
 }
 

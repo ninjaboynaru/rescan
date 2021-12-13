@@ -1,10 +1,14 @@
 import React from 'react';
 import Select from 'react-select';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import DATA_FILTER_TYPE from './DATA_FILTER_TYPE';
 
 class DataListFilters extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = { showFilters: false };
+		this.toggleFilters = this.toggleFilters.bind(this);
 	}
 
 	buildFilters() {
@@ -14,25 +18,49 @@ class DataListFilters extends React.Component {
 			return;
 		}
 
-		return filterOptions.map((filterConfig) => {
+		const filters = filterOptions.map((filterConfig) => {
 			if (filterConfig.type === DATA_FILTER_TYPE.SEARCH_LIST) {
 				return (
 					<div className="datalist-filter" key={filterConfig.id}>
 						<p className="datalist-filter__label">{filterConfig.label}</p>
-						<Select className="datalist-filters-cn__select" options={filterConfig.options} onChange={filterConfig.onChange} />
+						<Select classNamePrefix="datalist-filter__select" className="datalist-filters__select" options={filterConfig.options} onChange={filterConfig.onChange} />
 					</div>
 				);
 			}
 
 			return null;
 		});
+
+		return (
+			<div className="datalist-filters-filters">
+				{filters}
+			</div>
+		);
+	}
+
+	toggleFilters() {
+		this.setState((prevState) => ({
+			showFilters: !prevState.showFilters
+		}));
 	}
 
 	render() {
+		const { showFilters } = this.state;
+		let filters = null;
+		let headerIcon = faChevronRight;
+
+		if (showFilters) {
+			filters = this.buildFilters();
+			headerIcon = faChevronDown;
+		}
+
 		return (
 			<div className="datalist-filters-container">
-				<h3 className="datalist-filters-header">Filters</h3>
-				{this.buildFilters()}
+				<h4 className="datalist-filters-header" onClick={this.toggleFilters}>
+					<span>{'Filters     '}</span>
+					<FontAwesomeIcon icon={headerIcon} />
+				</h4>
+				{filters}
 			</div>
 		);
 	}

@@ -1,20 +1,50 @@
 
 .datalist-filters-container {
-	width: 100%;
+	align-self: flex-start;
+	width: 50%;
+	padding: 0.5rem;
+	margin: 1rem;
+	margin-left: 0;
+	border-radius: 6px;
+	color: var(--color-on-primary);
+	background-color: var(--color-primary);
 }
 
 .datalist-filters-header {
-	
+	margin: 0;
+}
+
+.datalist-filters-header:hover {
+	cursor: pointer;
+}
+
+.datalist-filters-filters {
+	margin-top: 0.5rem;
 }
 
 .datalist-filter {
-
+	font-size:0.8rem;
 }
 
 .datalist-filter__label {
-
+	margin: 0;
+	margin-bottom: 0.2rem;
+	font-weight: bold;
 }
 
 .datalist-filter__select {
 
+}
+
+.datalist-filter__select__control {
+	border-radius: 0 !important;
+	min-height: 0px !important;
+}
+
+.datalist-filter__select__indicator {
+	padding: 0px !important;
+}
+
+.datalist-filter__select__menu {
+	color: var(--color-text);
 }

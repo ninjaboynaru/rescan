@@ -67,11 +67,13 @@ class HomeScreen extends React.Component {
 
 	render() {
 		return (
-			<div className="screen-container screen-container-centered">
+			<div className="screen-container">
 				<ScreenHeader helpModalComponent={HelpInfo} />
-				<ScreenTitle>RESCAN</ScreenTitle>
-				<Button onClick={this.onOpenClick} primary className="home-screen-btn">Open Inventory</Button>
-				<Button onClick={this.onCreateClick} primary className="home-screen-btn">Create Inventory</Button>
+				<div className="home-sceen-center-content">
+					<ScreenTitle>RESCAN</ScreenTitle>
+					<Button onClick={this.onOpenClick} primary className="home-screen-btn">Open Inventory</Button>
+					<Button onClick={this.onCreateClick} primary className="home-screen-btn">Create Inventory</Button>
+				</div>
 			</div>
 		);
 	}

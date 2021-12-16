@@ -1,0 +1,6 @@
+const DATA_FILTER_TYPE = {
+	TEXT_INPUT: 'TEXT_INPUT',
+	SEARCH_LIST: 'SEARCH_LIST'
+};
+
+export default DATA_FILTER_TYPE;

@@ -1,42 +1,19 @@
 import React from 'react';
-import TextInput from '../TextInput';
-import DataListFilters from './DataListFilters';
+import DataListFilters from './DataListFilters/DataListFilters';
 
-class DataListContainer extends React.Component {
-	constructor(props) {
-		super(props);
+function DataListContainer({ children, filterOptions }) {
+	let filterUI = null;
 
-		this.state = { searchText: '' };
-		this.onSearchChange = this.onSearchChange.bind(this);
+	if (filterOptions) {
+		filterUI = <DataListFilters filterOptions={filterOptions} />;
 	}
 
-	onSearchChange(event) {
-		const searchText = event.target.value;
-		this.setState({ searchText });
-		this.props.onSearchChange(searchText);
-	}
-
-	render() {
-		let searchBar = null;
-		let filterUI = null;
-		const { children, showSearchBar, searchLabel, searchPlaceholder, filterOptions } = this.props;
-
-		if (showSearchBar === true) {
-			searchBar = <TextInput value={this.state.searchText} onChange={this.onSearchChange} label={searchLabel} placeholder={searchPlaceholder} fullWidth />;
-		}
-
-		if (filterOptions) {
-			filterUI = <DataListFilters filterOptions={filterOptions} />;
-		}
-
-		return (
-			<div className="datalist-container">
-				{searchBar}
-				{filterUI}
-				{children}
-			</div>
-		);
-	}
+	return (
+		<div className="datalist-container">
+			{filterUI}
+			{children}
+		</div>
+	);
 }
 
 export default DataListContainer;

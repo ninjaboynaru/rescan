@@ -8,5 +8,6 @@ import DataRowButton from './DataRowContent/DataRowButton';
 import DataRowSearchList from './DataRowContent/DataRowSearchList';
 import DataRowText from './DataRowContent/DataRowText';
 import DataRowTextInput from './DataRowContent/DataRowTextInput';
+import DATA_FILTER_TYPE from './DataListFilters/DATA_FILTER_TYPE';
 
-export { DataListContainer, DataListButtonHeader, DataListInfoHeader, DataRow, DataItem, DataRowButtonGroup, DataRowButton, DataRowSearchList, DataRowText, DataRowTextInput };
+export { DataListContainer, DataListButtonHeader, DataListInfoHeader, DataRow, DataItem, DataRowButtonGroup, DataRowButton, DataRowSearchList, DataRowText, DataRowTextInput, DATA_FILTER_TYPE };

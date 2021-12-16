@@ -4,8 +4,7 @@ import withModal from '../withModal';
 import Product from '../../all/product';
 import Button from '../Button';
 import { buildLocationListOptions, LOCATION_ALL_OPTION } from './util';
-import { DataListContainer, DataListButtonHeader, DataListInfoHeader } from '../DataList';
-import DATA_FILTER_TYPE from '../DataList/DATA_FILTER_TYPE';
+import { DATA_FILTER_TYPE, DataListContainer, DataListButtonHeader, DataListInfoHeader } from '../DataList';
 import ProductDataRow from './ProductDataRow';
 import ProductEditDataRow from './ProductEditDataRow';
 import EDIT_MODE from '../EDIT_MODE';
@@ -170,17 +169,22 @@ class InventoryManualMode extends React.Component {
 	}
 
 	buildFilterOptions() {
-		const options = [];
-
-		options.push({
-			id: 'LOCATION',
-			type: DATA_FILTER_TYPE.SEARCH_LIST,
-			label: 'Location',
-			options: buildLocationListOptions(true, true),
-			onChange: this.onLocationFilterChange
-		});
-
-		return options;
+		return [
+			{
+				id: 'LOCATION',
+				type: DATA_FILTER_TYPE.SEARCH_LIST,
+				label: 'Location',
+				options: buildLocationListOptions(true, true),
+				onChange: this.onLocationFilterChange
+			},
+			{
+				id: 'SEARCH',
+				type: DATA_FILTER_TYPE.TEXT_INPUT,
+				label: 'Search',
+				placeholder: 'Search Products',
+				onChange: this.onSearchChange
+			}
+		];
 	}
 
 	render() {
@@ -197,7 +201,7 @@ class InventoryManualMode extends React.Component {
 					<Button className="datalist-button-header__btn" onClick={this.createProduct} primary>New Product</Button>
 					<Button className="datalist-button-header__btn" onClick={this.saveCSV} primary>Export CSV</Button>
 				</DataListButtonHeader>
-				<DataListContainer filterOptions={this.buildFilterOptions()} showSearchBar searchLabel="Search" searchPlaceholder="Search Products" onSearchChange={this.onSearchChange}>
+				<DataListContainer filterOptions={this.buildFilterOptions()}>
 					<DataListInfoHeader>
 						{infoHeaderContent}
 					</DataListInfoHeader>

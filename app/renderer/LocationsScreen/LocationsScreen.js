@@ -5,7 +5,7 @@ import Location from '../../all/location';
 import ScreenTitle from '../ScreenTitle';
 import ScreenHeader from '../ScreenHeader';
 import Button from '../Button';
-import { DataListContainer, DataListButtonHeader, DataListInfoHeader } from '../DataList';
+import { DATA_FILTER_TYPE, DataListContainer, DataListButtonHeader, DataListInfoHeader } from '../DataList';
 import LocationDataRow from './LocationDataRow';
 import LocationEditDataRow from './LocationEditDataRow';
 import EDIT_MODE from '../EDIT_MODE';
@@ -156,6 +156,18 @@ location
 		return dataRows;
 	}
 
+	buildFilterOptions() {
+		return [
+			{
+				id: 'SEARCH',
+				type: DATA_FILTER_TYPE.TEXT_INPUT,
+				label: 'Search',
+				placeholder: 'Search Locations',
+				onChange: this.onSearchChange
+			}
+		];
+	}
+
 	render() {
 		const { dbError, locations, displayLocations } = this.state;
 		let infoHeaderContent = null;
@@ -175,7 +187,7 @@ location
 				<DataListButtonHeader>
 					<Button onClick={this.createLocation} primary>New Location</Button>
 				</DataListButtonHeader>
-				<DataListContainer showSearchBar searchLabel="Search" searchPlaceholder="Search Locations" onSearchChange={this.onSearchChange}>
+				<DataListContainer filterOptions={this.buildFilterOptions()}>
 					<DataListInfoHeader>
 						{infoHeaderContent}
 					</DataListInfoHeader>

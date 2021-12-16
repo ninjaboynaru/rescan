@@ -1,7 +1,8 @@
 import React from 'react';
-import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import TextInputFilter from './TextInputFilter';
+import SearchListFilter from './SearchListFilter';
 import DATA_FILTER_TYPE from './DATA_FILTER_TYPE';
 
 class DataListFilters extends React.Component {
@@ -19,13 +20,11 @@ class DataListFilters extends React.Component {
 		}
 
 		const filters = filterOptions.map((filterConfig) => {
+			if (filterConfig.type === DATA_FILTER_TYPE.TEXT_INPUT) {
+				return <TextInputFilter filterConfig={filterConfig} key={filterConfig.id} />;
+			}
 			if (filterConfig.type === DATA_FILTER_TYPE.SEARCH_LIST) {
-				return (
-					<div className="datalist-filter" key={filterConfig.id}>
-						<p className="datalist-filter__label">{filterConfig.label}</p>
-						<Select classNamePrefix="datalist-filter__select" className="datalist-filters__select" options={filterConfig.options} onChange={filterConfig.onChange} />
-					</div>
-				);
+				return <SearchListFilter filterConfig={filterConfig} key={filterConfig.id} />;
 			}
 
 			return null;

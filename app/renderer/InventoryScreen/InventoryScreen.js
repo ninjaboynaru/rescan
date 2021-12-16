@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import { faHandRock, faBarcode, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import ScreenHeader from '../ScreenHeader';
 import ScreenTitle from '../ScreenTitle';
 import Button from '../Button';
@@ -110,9 +111,9 @@ class InventoryScreen extends React.Component {
 				<ScreenHeader showBackButton helpModalComponent={HelpInfo} />
 				<ScreenTitle>{db.getDBName()}</ScreenTitle>
 				<DataListButtonHeader>
-					<Button className="datalist-button-header__btn" onClick={this.switchManualMode} primary outline={manualBtnOutline}>Manual Mode</Button>
-					<Button className="datalist-button-header__btn" onClick={this.switchScanMode} primary outline={scanBtnOutline}>Scan Mode</Button>
-					<Button className="datalist-button-header__btn" onClick={this.openLocationsScreen} primary>Locations</Button>
+					<Button icon={faHandRock} className="datalist-button-header__btn" onClick={this.switchManualMode} primary outline={manualBtnOutline}>Manual Mode</Button>
+					<Button icon={faBarcode} className="datalist-button-header__btn" onClick={this.switchScanMode} primary outline={scanBtnOutline}>Scan Mode</Button>
+					<Button icon={faBoxOpen} className="datalist-button-header__btn" onClick={this.openLocationsScreen} primary>Locations</Button>
 				</DataListButtonHeader>
 				{modeUI}
 			</div>

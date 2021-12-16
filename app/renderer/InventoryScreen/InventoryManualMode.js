@@ -1,5 +1,6 @@
 import React from 'react';
 import Fuse from 'fuse.js';
+import { faPlusCircle, faFileCsv } from '@fortawesome/free-solid-svg-icons';
 import withModal from '../withModal';
 import Product from '../../all/product';
 import Button from '../Button';
@@ -198,8 +199,8 @@ class InventoryManualMode extends React.Component {
 		return (
 			<>
 				<DataListButtonHeader>
-					<Button className="datalist-button-header__btn" onClick={this.createProduct} primary>New Product</Button>
-					<Button className="datalist-button-header__btn" onClick={this.saveCSV} primary>Export CSV</Button>
+					<Button icon={faPlusCircle} className="datalist-button-header__btn" onClick={this.createProduct} primary>New Product</Button>
+					<Button icon={faFileCsv} className="datalist-button-header__btn" onClick={this.saveCSV} primary>Export CSV</Button>
 				</DataListButtonHeader>
 				<DataListContainer filterOptions={this.buildFilterOptions()}>
 					<DataListInfoHeader>

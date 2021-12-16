@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import Fuse from 'fuse.js';
+import { faArrowCircleLeft, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import withModal from '../withModal';
 import Location from '../../all/location';
 import ScreenTitle from '../ScreenTitle';
@@ -189,8 +190,8 @@ location
 			<div className="screen-container">
 				<ScreenTitle>Locations</ScreenTitle>
 				<DataListButtonHeader>
-					<Button className="datalist-button-header__btn" onClick={this.returnToInventoryScreen} primary>Return To Inventory</Button>
-					<Button className="datalist-button-header__btn" onClick={this.createLocation} primary>New Location</Button>
+					<Button icon={faArrowCircleLeft} className="datalist-button-header__btn" onClick={this.returnToInventoryScreen} primary>Return To Inventory</Button>
+					<Button icon={faPlusCircle} className="datalist-button-header__btn" onClick={this.createLocation} primary>New Location</Button>
 				</DataListButtonHeader>
 				<DataListContainer filterOptions={this.buildFilterOptions()}>
 					<DataListInfoHeader>

@@ -1,7 +1,13 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function Button({ children, onClick, className, primary, danger, outline, minimal }) {
+export default function Button({ children, onClick, className, icon, primary, danger, outline, minimal }) {
 	let finalClassName = 'btn';
+	let iconElement = null;
+
+	if (icon) {
+		iconElement = <FontAwesomeIcon icon={icon} className="btn-icon" />;
+	}
 
 	if (primary === true) {
 		finalClassName += ' btn-primary';
@@ -21,5 +27,10 @@ export default function Button({ children, onClick, className, primary, danger, 
 		finalClassName = `${finalClassName} ${className}`;
 	}
 
-	return <button type="button" className={finalClassName} onClick={onClick}>{children}</button>;
+	return (
+		<button type="button" className={finalClassName} onClick={onClick}>
+			{children}
+			{iconElement}
+		</button>
+	);
 }

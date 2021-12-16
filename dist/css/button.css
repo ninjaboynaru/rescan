@@ -6,6 +6,10 @@
 	color: var(--color-btn-text);
 }
 
+.btn-icon {
+	margin-left: 0.6rem;
+}
+
 .btn-primary {
 	background-color: var(--color-btn-primary);
 }

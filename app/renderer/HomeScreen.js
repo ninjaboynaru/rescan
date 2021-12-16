@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import ScreenHeader from './ScreenHeader';
+import ScreenFooter from './ScreenFooter';
 import ScreenTitle from './ScreenTitle';
 import Button from './Button';
 
@@ -74,6 +75,7 @@ class HomeScreen extends React.Component {
 					<Button onClick={this.onOpenClick} primary className="home-screen-btn">Open Inventory</Button>
 					<Button onClick={this.onCreateClick} primary className="home-screen-btn">Create Inventory</Button>
 				</div>
+				<ScreenFooter />
 			</div>
 		);
 	}

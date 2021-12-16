@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { faHandRock, faBarcode, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import ScreenHeader from '../ScreenHeader';
+import ScreenFooter from '../ScreenFooter';
 import ScreenTitle from '../ScreenTitle';
 import Button from '../Button';
 import { DataListButtonHeader } from '../DataList';
@@ -116,6 +117,7 @@ class InventoryScreen extends React.Component {
 					<Button icon={faBoxOpen} className="datalist-button-header__btn" onClick={this.openLocationsScreen} primary>Locations</Button>
 				</DataListButtonHeader>
 				{modeUI}
+				<ScreenFooter />
 			</div>
 		);
 	}

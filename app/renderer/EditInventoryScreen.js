@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import ScreenHeader from './ScreenHeader';
+import ScreenFooter from './ScreenFooter';
 import ScreenTitle from './ScreenTitle';
 import TextInput from './TextInput';
 import Button from './Button';
@@ -64,6 +65,7 @@ class EditInventoryScreen extends React.Component {
 					<Button onClick={this.saveInventory} primary>Save</Button>
 				</div>
 				{createErrorText}
+				<ScreenFooter />
 			</div>
 		);
 	}

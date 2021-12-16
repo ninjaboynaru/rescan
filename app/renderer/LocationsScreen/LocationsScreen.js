@@ -5,6 +5,7 @@ import { faArrowCircleLeft, faPlusCircle } from '@fortawesome/free-solid-svg-ico
 import withModal from '../withModal';
 import Location from '../../all/location';
 import ScreenTitle from '../ScreenTitle';
+import ScreenFooter from '../ScreenFooter';
 import Button from '../Button';
 import { DATA_FILTER_TYPE, DataListContainer, DataListButtonHeader, DataListInfoHeader } from '../DataList';
 import LocationDataRow from './LocationDataRow';
@@ -199,6 +200,7 @@ location
 					</DataListInfoHeader>
 					{this.buildDataList()}
 				</DataListContainer>
+				<ScreenFooter />
 			</div>
 		);
 	}

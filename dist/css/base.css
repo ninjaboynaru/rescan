@@ -41,11 +41,11 @@ body {
 }
 
 .screen-footer {
-	justify-self: flex-end;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
+	margin-top: auto;
 	width: 100%;
 	padding: 1rem;
 }
@@ -65,12 +65,10 @@ body {
 }
 
 .screen-header__btn:only-child {
-	justify-self: flex-start;
 }
 
 .screen-title {
 	font-family: 'bungee-hairline';
-	justify-self: flex-start;
 	font-weight: bold;
 }
 

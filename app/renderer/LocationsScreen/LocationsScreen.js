@@ -1,9 +1,9 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import Fuse from 'fuse.js';
 import withModal from '../withModal';
 import Location from '../../all/location';
 import ScreenTitle from '../ScreenTitle';
-import ScreenHeader from '../ScreenHeader';
 import Button from '../Button';
 import { DATA_FILTER_TYPE, DataListContainer, DataListButtonHeader, DataListInfoHeader } from '../DataList';
 import LocationDataRow from './LocationDataRow';
@@ -22,6 +22,7 @@ class LocationScreen extends React.Component {
 		this.createLocation = this.createLocation.bind(this);
 		this.saveLocation = this.saveLocation.bind(this);
 		this.cancelEdit = this.cancelEdit.bind(this);
+		this.returnToInventoryScreen = this.returnToInventoryScreen.bind(this);
 	}
 
 	componentDidMount() {
@@ -168,6 +169,10 @@ location
 		];
 	}
 
+	returnToInventoryScreen() {
+		this.props.history.goBack();
+	}
+
 	render() {
 		const { dbError, locations, displayLocations } = this.state;
 		let infoHeaderContent = null;
@@ -182,10 +187,10 @@ location
 
 		return (
 			<div className="screen-container">
-				<ScreenHeader showBackButton />
 				<ScreenTitle>Locations</ScreenTitle>
 				<DataListButtonHeader>
-					<Button onClick={this.createLocation} primary>New Location</Button>
+					<Button className="datalist-button-header__btn" onClick={this.returnToInventoryScreen} primary>Return To Inventory</Button>
+					<Button className="datalist-button-header__btn" onClick={this.createLocation} primary>New Location</Button>
 				</DataListButtonHeader>
 				<DataListContainer filterOptions={this.buildFilterOptions()}>
 					<DataListInfoHeader>
@@ -198,4 +203,4 @@ location
 	}
 }
 
-export default withModal(LocationScreen);
+export default withRouter(withModal(LocationScreen));

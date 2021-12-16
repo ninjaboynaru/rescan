@@ -16,4 +16,6 @@
 	--color-modal-content-background: var(--color-white);
 
 	--btn-hover-brightness: 95%;
+
+	--standard-radius: 4px;
 }

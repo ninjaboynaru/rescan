@@ -5,7 +5,7 @@
 	padding: 0.5rem;
 	margin: 1rem;
 	margin-left: 0;
-	border-radius: 6px;
+	border-radius: var(--standard-radius);
 	color: var(--color-on-primary);
 	background-color: var(--color-primary);
 }

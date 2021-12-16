@@ -57,7 +57,7 @@ class EditInventoryScreen extends React.Component {
 
 		return (
 			<div className="screen-container">
-				<ScreenHeader />
+				<ScreenHeader showBackButton />
 				<ScreenTitle>New Inventory</ScreenTitle>
 				<div>
 					<TextInput value={name} onChange={this.onNameChange} label="Name" placeholder="Inventory Name" error={nameFieldErrorText} fullWidth />

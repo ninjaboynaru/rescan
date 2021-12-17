@@ -36,10 +36,16 @@ export default function withModal(Component) {
 					<div className="modal-wrapper">
 						<div className="modal-content">
 							<div className="modal-content-header">
-								<p className="modal-content__title">{title}</p>
-								<Button danger className="modal-content__exit-btn" onClick={this.close}><FontAwesomeIcon icon={faTimes} /></Button>
+								<p className="modal-content__title">
+									{title}
+								</p>
+								<Button danger className="modal-content__exit-btn" onClick={this.close}>
+									<FontAwesomeIcon icon={faTimes} />
+								</Button>
 							</div>
-							<div className="modal-content__body">{this.BodyComponent()}</div>
+							<div className="modal-content__body">
+								{this.BodyComponent()}
+							</div>
 						</div>
 					</div>
 				);

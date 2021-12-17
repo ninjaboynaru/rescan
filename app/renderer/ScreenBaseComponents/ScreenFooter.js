@@ -9,7 +9,9 @@ function ScreenFooter() {
 				<span>Apex Combat Systems</span>
 			</div>
 			<div className="screen-footer__content">
-				<span>{getAppVersion()}</span>
+				<span>
+					{getAppVersion()}
+				</span>
 			</div>
 		</div>
 	);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { Location } from '../Models';
 import { DataRow, DataItem, DataRowText, DataRowTextInput, DataRowButtonGroup, DataRowButton } from '../DataList';
 
 const MAX_NAME_LENGTH = 200;
@@ -8,8 +9,8 @@ class LocationEditDataRow extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.modifiedLocation = new Location(this.props.location);
 		this.state = { name: this.props.location.name, nameError: null };
-		this.modifiedLocation = { ...this.props.location };
 		this.onNameChange = this.onNameChange.bind(this);
 		this.onSave = this.onSave.bind(this);
 	}
@@ -44,8 +45,14 @@ class LocationEditDataRow extends React.Component {
 
 		return (
 			<DataRow>
-				<DataItem label="Name" error={nameError}><DataRowTextInput value={name} placeholder="Name" onChange={this.onNameChange} /></DataItem>
-				<DataItem label="Products Owned"><DataRowText>{useCount}</DataRowText></DataItem>
+				<DataItem label="Name" error={nameError}>
+					<DataRowTextInput value={name} placeholder="Name" onChange={this.onNameChange} />
+				</DataItem>
+				<DataItem label="Products Owned">
+					<DataRowText>
+						{useCount}
+					</DataRowText>
+				</DataItem>
 				<DataRowButtonGroup>
 					<DataRowButton icon={faSave} onClick={this.onSave} />
 					<DataRowButton icon={faUndo} onClick={this.props.onCancelClick} outline />

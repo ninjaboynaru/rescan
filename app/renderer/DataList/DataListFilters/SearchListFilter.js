@@ -6,7 +6,9 @@ function SearchListFilter({ filterConfig }) {
 
 	return (
 		<div className="datalist-filter">
-			<p className="datalist-filter__label">{label}</p>
+			<p className="datalist-filter__label">
+				{label}
+			</p>
 			<Select classNamePrefix="datalist-filter__select" className="datalist-filter__select" options={options} onChange={onChange} />
 		</div>
 	);

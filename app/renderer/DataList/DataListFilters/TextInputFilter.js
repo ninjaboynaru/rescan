@@ -19,7 +19,9 @@ class TextInputFilter extends React.Component {
 
 		return (
 			<div className="datalist-filter">
-				<p className="datalist-filter__label">{label}</p>
+				<p className="datalist-filter__label">
+					{label}
+				</p>
 				<input className="datalist-filter__text-input" type="text" placeholder={placeholder} value={this.state.text} onChange={this.onChangeInternal} />
 			</div>
 		);

@@ -56,7 +56,9 @@ class DataListFilters extends React.Component {
 		return (
 			<div className="datalist-filters-container">
 				<h4 className="datalist-filters-header" onClick={this.toggleFilters}>
-					<span>{'Filters     '}</span>
+					<span>
+						{'Filters     '}
+					</span>
 					<FontAwesomeIcon icon={headerIcon} />
 				</h4>
 				{filters}

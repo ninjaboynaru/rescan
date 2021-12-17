@@ -1,13 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { faHandRock, faBarcode, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
-import ScreenHeader from '../ScreenHeader';
-import ScreenFooter from '../ScreenFooter';
-import ScreenTitle from '../ScreenTitle';
-import Button from '../Button';
+import { ScreenHeader, ScreenFooter, ScreenTitle } from '../ScreenBaseComponents';
+import Button from '../Components/Button';
 import { DataListButtonHeader } from '../DataList';
-import InventoryManualMode from './InventoryManualMode';
-import InventoryScanMode from './InventoryScanMode';
+import HelpInfo from './HelpInfo';
+import InventoryManualMode from './SubScreens/InventoryManualMode';
+import InventoryScanMode from './SubScreens/InventoryScanMode';
 
 const INVENTORY_MODE = {
 	MANUAL: 'MANUAL',
@@ -15,34 +14,6 @@ const INVENTORY_MODE = {
 };
 
 const db = window.db;
-
-function HelpInfo() {
-	return (
-		<div>
-			<p>ReScan allows you to either manualy create products or scan them in</p>
-			<hr />
-			<p>Products must have an NSN (13 digit) barcode in order to be scanned</p>
-			<hr />
-			<p>
-After scanning a new product, you must fill in a
-				<b> Common Name</b>
-				{' '}
-for it and press the save button
-			</p>
-			<hr />
-			<p>Scanning the same NSN multiple times will increase that products count. You do not need to press save again on already scanned products</p>
-			<hr />
-			<p>For both manualy entered, and scanned products, all fileds must be filled in before saving</p>
-			<hr />
-			<p>
-Click the
-				<b> export</b>
-				{' '}
-button in order to export the inventory as an Excel spreadsheet
-			</p>
-		</div>
-	);
-}
 
 class InventoryScreen extends React.Component {
 	constructor(props) {
@@ -110,7 +81,9 @@ class InventoryScreen extends React.Component {
 		return (
 			<div className="screen-container">
 				<ScreenHeader showBackButton helpModalComponent={HelpInfo} />
-				<ScreenTitle>{db.getDBName()}</ScreenTitle>
+				<ScreenTitle>
+					{db.getDBName()}
+				</ScreenTitle>
 				<DataListButtonHeader>
 					<Button icon={faHandRock} className="datalist-button-header__btn" onClick={this.switchManualMode} primary outline={manualBtnOutline}>Manual Mode</Button>
 					<Button icon={faBarcode} className="datalist-button-header__btn" onClick={this.switchScanMode} primary outline={scanBtnOutline}>Scan Mode</Button>

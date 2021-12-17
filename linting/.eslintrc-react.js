@@ -9,6 +9,7 @@ module.exports = {
 		'jsx-a11y/label-has-associated-control': 0,
 		'jsx-a11y/media-has-caption': 0,
 		'jsx-a11y/click-events-have-key-events': 0,
-		'jsx-a11y/no-noninteractive-element-interactions': 0
+		'jsx-a11y/no-noninteractive-element-interactions': 0,
+		'react/jsx-one-expression-per-line': 0
 	}
 }

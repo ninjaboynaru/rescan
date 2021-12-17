@@ -1,13 +1,14 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
-import withModal from '../withModal';
-import { DataListContainer, DataListButtonHeader } from '../DataList';
-import ProductDataRow from './ProductDataRow';
-import ProductEditDataRow from './ProductEditDataRow';
-import nsnBarcodeListener from '../nsnBarcodeListener';
-import Button from '../Button';
-import EDIT_MODE from '../EDIT_MODE';
+import withModal from '../../Components/withModal';
+import Button from '../../Components/Button';
+import { DataListContainer, DataListButtonHeader } from '../../DataList';
+import ProductDataRow from '../ProductDataRows/ProductDataRow';
+import ProductEditDataRow from '../ProductDataRows/ProductEditDataRow';
+import nsnBarcodeListener from '../../nsnBarcodeListener';
+import DeleteConfirmation from '../DeleteConfirmation';
+import EDIT_MODE from '../../EDIT_MODE';
 
 const db = window.db;
 const getFLISProduct = window.getFLISProduct;
@@ -102,18 +103,7 @@ class InventoryScanMode extends React.Component {
 		};
 		const cancelDelete = () => this.props.modal.close();
 
-		this.props.modal.open('Are You Sure?', () => (
-			<div>
-				<p>Are you sure you want to delete this Product?</p>
-				<p>
-					This can not be undone!
-				</p>
-				<div>
-					<Button onClick={confirmDelete} danger>Yes</Button>
-					<Button onClick={cancelDelete} primary>No</Button>
-				</div>
-			</div>
-		));
+		this.props.modal.open('Are You Sure?', () => <DeleteConfirmation onConfirm={confirmDelete} onCancelClick={cancelDelete} />);
 	}
 
 	cancelEdit() {
@@ -168,16 +158,24 @@ class InventoryScanMode extends React.Component {
 			icon = faVolumeUp;
 		}
 
-		return <Button primary outline={btnOutline} onClick={onClick}><FontAwesomeIcon icon={icon} /></Button>;
+		return (
+			<Button primary outline={btnOutline} onClick={onClick}>
+				<FontAwesomeIcon icon={icon} />
+			</Button>
+		);
 	}
 
 	render() {
 		return (
 			<>
-				<DataListButtonHeader className="inventory-btn-container">{this.buildAudioToggle()}</DataListButtonHeader>
+				<DataListButtonHeader className="inventory-btn-container">
+					{this.buildAudioToggle()}
+				</DataListButtonHeader>
 				<DataListContainer>
 					{this.buildProductRows()}
-					<audio ref={this.audioElementRef}><source src="beep.wav" /></audio>
+					<audio ref={this.audioElementRef}>
+						<source src="beep.wav" />
+					</audio>
 				</DataListContainer>
 			</>
 		);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from '../../Button';
+import Button from '../../Components/Button';
 
 function DataRowButton({ icon, onClick, outline, danger }) {
 	let primary = true;

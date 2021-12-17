@@ -5,8 +5,16 @@ import { DataRow, DataItem, DataRowText, DataRowButtonGroup, DataRowButton } fro
 function LocationDataRow({ location, useCount, onEditClick, onDeletClick }) {
 	return (
 		<DataRow>
-			<DataItem label="Name"><DataRowText>{location.name}</DataRowText></DataItem>
-			<DataItem label="Products Owned"><DataRowText>{useCount}</DataRowText></DataItem>
+			<DataItem label="Name">
+				<DataRowText>
+					{location.name}
+				</DataRowText>
+			</DataItem>
+			<DataItem label="Products Owned">
+				<DataRowText>
+					{useCount}
+				</DataRowText>
+			</DataItem>
 			<DataRowButtonGroup>
 				<DataRowButton icon={faEdit} onClick={onEditClick} />
 				<DataRowButton icon={faTrash} onClick={onDeletClick} danger />

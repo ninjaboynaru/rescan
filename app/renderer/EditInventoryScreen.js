@@ -1,10 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import ScreenHeader from './ScreenHeader';
-import ScreenFooter from './ScreenFooter';
-import ScreenTitle from './ScreenTitle';
-import TextInput from './TextInput';
-import Button from './Button';
+import { ScreenHeader, ScreenFooter, ScreenTitle } from './ScreenBaseComponents';
+import Button from './Components/Button';
+import TextInput from './Components/TextInput';
 
 class EditInventoryScreen extends React.Component {
 	constructor(props) {

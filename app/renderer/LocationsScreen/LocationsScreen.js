@@ -2,23 +2,20 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import Fuse from 'fuse.js';
 import { faArrowCircleLeft, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import withModal from '../withModal';
-import Location from '../../all/location';
-import ScreenTitle from '../ScreenTitle';
-import ScreenFooter from '../ScreenFooter';
-import Button from '../Button';
+import { Location } from '../Models';
+import withModal from '../Components/withModal';
+import Button from '../Components/Button';
+import { ScreenTitle, ScreenFooter } from '../ScreenBaseComponents';
 import { DATA_FILTER_TYPE, DataListContainer, DataListButtonHeader, DataListInfoHeader } from '../DataList';
 import LocationDataRow from './LocationDataRow';
 import LocationEditDataRow from './LocationEditDataRow';
 import EDIT_MODE from '../EDIT_MODE';
 
-const db = window.db;
-
 class LocationScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { locations: null, displayLocations: null, searchText: '', editMode: null, editingLocationID: null, dbError: false };
+		this.state = { locations: null, displayLocations: null, searchText: '', editMode: null, locationEditID: null, dbError: false };
 		this.onSearchChange = this.onSearchChange.bind(this);
 		this.editLocation = this.editLocation.bind(this);
 		this.createLocation = this.createLocation.bind(this);
@@ -37,7 +34,7 @@ class LocationScreen extends React.Component {
 	}
 
 	loadLocations() {
-		const locations = db.getLocations();
+		const locations = Location.getAll();
 		this.setState({ locations }, () => {
 			this.updateDisplayLocations(this.state.searchText);
 		});
@@ -55,24 +52,16 @@ class LocationScreen extends React.Component {
 		}
 	}
 
-	editLocation(editingLocationID) {
-		this.setState({ editingLocationID, editMode: EDIT_MODE.MODIFY });
+	editLocation(locationEditID) {
+		this.setState({ locationEditID, editMode: EDIT_MODE.MODIFY });
 	}
 
 	createLocation() {
 		this.setState({ editMode: EDIT_MODE.NEW });
 	}
 
-	saveLocation(modifiedLocation) {
-		const { editMode, editingLocationID } = this.state;
-		let success;
-
-		if (editMode === EDIT_MODE.MODIFY) {
-			success = db.updateLocation(editingLocationID, modifiedLocation);
-		}
-		else if (editMode === EDIT_MODE.NEW) {
-			success = db.createLocation(modifiedLocation);
-		}
+	saveLocation(location) {
+		const success = location.save();
 
 		if (success === false) {
 			return this.setState({ dbError: true });
@@ -83,11 +72,11 @@ class LocationScreen extends React.Component {
 	}
 
 	cancelEdit() {
-		this.setState({ editingLocationID: null, editMode: null });
+		this.setState({ editMode: null, locationEditID: null });
 	}
 
 	deleteLocation(locationID) {
-		const success = db.deleteLocation(locationID);
+		const success = Location.delete(locationID);
 
 		if (success === false) {
 			this.setState({ dbError: true });
@@ -98,7 +87,7 @@ class LocationScreen extends React.Component {
 	}
 
 	deleteLocationConfirmation(locationID) {
-		const locationUseCount = db.getLocaitonUseCount(locationID);
+		const locationUseCount = Location.getProductUsage(locationID);
 
 		if (locationUseCount === 0) {
 			return this.deleteLocation(locationID);
@@ -114,15 +103,7 @@ class LocationScreen extends React.Component {
 		this.props.modal.open('Are You Sure?', () => (
 			<div>
 				<p>Are you sure you want to delete this Location?</p>
-				<p>
-					{locationUseCount}
-					{' '}
-Products use this locaiton and will be reset to having
-					{' '}
-					<b>None</b>
-					{' '}
-location
-				</p>
+				<p>{locationUseCount} Products use this locaiton and will be reset to having <b>None</b> location</p>
 				<div>
 					<Button onClick={confirmDelete} danger>Yes</Button>
 					<Button onClick={cancelDelete} primary>No</Button>
@@ -132,15 +113,15 @@ location
 	}
 
 	buildDataList() {
-		const { displayLocations, editMode, editingLocationID } = this.state;
+		const { displayLocations, editMode, locationEditID } = this.state;
 		if (!displayLocations) {
 			return;
 		}
 
 		const dataRows = displayLocations.map((location) => {
-			const locationUseCount = db.getLocaitonUseCount(location.id);
+			const locationUseCount = Location.getProductUsage(location.id);
 
-			if (editingLocationID === location.id) {
+			if (editMode === EDIT_MODE.MODIFY && locationEditID === location.id) {
 				return <LocationEditDataRow key={location.id} location={location} useCount={locationUseCount} onSaveClick={this.saveLocation} onCancelClick={this.cancelEdit} />;
 			}
 

@@ -1,12 +1,10 @@
-import Location from '../../all/location';
-
-const db = window.db;
+import { Location } from '../Models';
 
 const LOCATION_NONE_OPTION = { value: Location.NONE_ID, label: 'None' };
 const LOCATION_ALL_OPTION = { value: -2, label: 'All' };
 
 function buildLocationListOptions(includeAllOption, includeNoneOption) {
-	const options = db.getLocations().map((location) => ({
+	const options = Location.getAll().map((location) => ({
 		value: location.id,
 		label: location.name
 	}));

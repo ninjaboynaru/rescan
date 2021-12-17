@@ -2,8 +2,8 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowAltCircleLeft, faQuestion } from '@fortawesome/free-solid-svg-icons';
-import withModal from './withModal';
-import Button from './Button';
+import withModal from '../Components/withModal';
+import Button from '../Components/Button';
 
 function ScreenHeader({ history, children, showBackButton, helpModalComponent, modal }) {
 	let backButton;
@@ -11,11 +11,19 @@ function ScreenHeader({ history, children, showBackButton, helpModalComponent, m
 
 	if (showBackButton) {
 		const onBackClick = () => history.goBack();
-		backButton = <Button primary onClick={onBackClick} className="screen-header__btn"><FontAwesomeIcon icon={faArrowAltCircleLeft} /></Button>;
+		backButton = (
+			<Button primary onClick={onBackClick} className="screen-header__btn">
+				<FontAwesomeIcon icon={faArrowAltCircleLeft} />
+			</Button>
+		);
 	}
 	if (helpModalComponent) {
 		const onHelpClick = () => modal.open('Help', helpModalComponent);
-		helpButton = <Button primary outline onClick={onHelpClick} className="screen-header__btn"><FontAwesomeIcon icon={faQuestion} /></Button>;
+		helpButton = (
+			<Button primary outline onClick={onHelpClick} className="screen-header__btn">
+				<FontAwesomeIcon icon={faQuestion} />
+			</Button>
+		);
 	}
 
 	return (

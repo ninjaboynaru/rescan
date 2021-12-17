@@ -1,8 +1,8 @@
 import React from 'react';
 import { faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
-import Product from '../../all/product';
-import { buildLocationListOptions } from './util';
-import { DataRow, DataItem, DataRowTextInput, DataRowSearchList, DataRowButtonGroup, DataRowButton } from '../DataList';
+import { Product } from '../../Models';
+import { buildLocationListOptions } from '../util';
+import { DataRow, DataItem, DataRowTextInput, DataRowSearchList, DataRowButtonGroup, DataRowButton } from '../../DataList';
 
 const FIELD_ERROR_TEXT = 'Invalid Input';
 const MAX_TEXT_FIELD_LENGTH = 200;
@@ -174,10 +174,18 @@ class ProductEditRow extends React.Component {
 
 		return (
 			<DataRow>
-				<DataItem label="Common Name" error={nameError}><DataRowTextInput value={name} placeholder="name" onChange={this.onNameChange} /></DataItem>
-				<DataItem label="Noun" error={nounError}><DataRowTextInput value={noun} placeholder="noun" onChange={this.onNounChange} /></DataItem>
-				<DataItem label="NSN" error={nsnError}><DataRowTextInput value={nsn} placeholder="nsn" onChange={this.onNSNChange} /></DataItem>
-				<DataItem label="Count"><DataRowTextInput value={count} placeholder="count" onChange={this.onCountChange} /></DataItem>
+				<DataItem label="Common Name" error={nameError}>
+					<DataRowTextInput value={name} placeholder="name" onChange={this.onNameChange} />
+				</DataItem>
+				<DataItem label="Noun" error={nounError}>
+					<DataRowTextInput value={noun} placeholder="noun" onChange={this.onNounChange} />
+				</DataItem>
+				<DataItem label="NSN" error={nsnError}>
+					<DataRowTextInput value={nsn} placeholder="nsn" onChange={this.onNSNChange} />
+				</DataItem>
+				<DataItem label="Count">
+					<DataRowTextInput value={count} placeholder="count" onChange={this.onCountChange} />
+				</DataItem>
 				<DataItem label="Location">
 					<DataRowSearchList defaultValue={defaultLocationValue} options={locationOptions} onChange={this.onLocationChange} />
 				</DataItem>

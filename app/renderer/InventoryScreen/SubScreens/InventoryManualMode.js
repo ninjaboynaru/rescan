@@ -1,16 +1,16 @@
 import React from 'react';
 import Fuse from 'fuse.js';
 import { faPlusCircle, faFileCsv } from '@fortawesome/free-solid-svg-icons';
-import withModal from '../withModal';
-import Product from '../../all/product';
-import Button from '../Button';
-import { buildLocationListOptions, LOCATION_ALL_OPTION } from './util';
-import { DATA_FILTER_TYPE, DataListContainer, DataListButtonHeader, DataListInfoHeader } from '../DataList';
-import ProductDataRow from './ProductDataRow';
-import ProductEditDataRow from './ProductEditDataRow';
-import EDIT_MODE from '../EDIT_MODE';
+import { Product, Location } from '../../Models';
+import withModal from '../../Components/withModal';
+import Button from '../../Components/Button';
+import { buildLocationListOptions, LOCATION_ALL_OPTION } from '../util';
+import { DATA_FILTER_TYPE, DataListContainer, DataListButtonHeader, DataListInfoHeader } from '../../DataList';
+import ProductDataRow from '../ProductDataRows/ProductDataRow';
+import ProductEditDataRow from '../ProductDataRows/ProductEditDataRow';
+import DeleteConfirmation from '../DeleteConfirmation';
+import EDIT_MODE from '../../EDIT_MODE';
 
-const db = window.db;
 const csvSaver = window.csvSaver;
 
 class InventoryManualMode extends React.Component {
@@ -43,7 +43,7 @@ class InventoryManualMode extends React.Component {
 	}
 
 	loadProducts() {
-		const products = db.getAllProducts();
+		const products = Product.getAll();
 		this.setState({ products }, () => {
 			this.updateDisplayProducts(this.state.searchText);
 		});
@@ -79,7 +79,7 @@ class InventoryManualMode extends React.Component {
 	}
 
 	deleteProduct(productId) {
-		const success = db.deleteProduct(productId);
+		const success = Product.delete(productId);
 
 		if (success === false) {
 			this.props.dbError();
@@ -96,30 +96,11 @@ class InventoryManualMode extends React.Component {
 		};
 		const cancelDelete = () => this.props.modal.close();
 
-		this.props.modal.open('Are You Sure?', () => (
-			<div>
-				<p>Are you sure you want to delete this Product?</p>
-				<p>
-					This can not be undone!
-				</p>
-				<div>
-					<Button onClick={confirmDelete} danger>Yes</Button>
-					<Button onClick={cancelDelete} primary>No</Button>
-				</div>
-			</div>
-		));
+		this.props.modal.open('Are You Sure?', () => <DeleteConfirmation onConfirm={confirmDelete} onCancelClick={cancelDelete} />);
 	}
 
 	saveProduct(product) {
-		const { editMode, productEditId } = this.state;
-		let success = false;
-
-		if (editMode === EDIT_MODE.NEW) {
-			success = db.createProduct(product);
-		}
-		else if (editMode === EDIT_MODE.MODIFY) {
-			success = db.updateProduct(productEditId, product);
-		}
+		const success = product.save();
 
 		if (success === false) {
 			this.props.dbError();
@@ -131,11 +112,11 @@ class InventoryManualMode extends React.Component {
 	}
 
 	saveCSV() {
-		if (db.hasProducts() === false) {
+		if (Product.someExist() === false) {
 			return;
 		}
 
-		const products = db.getAllProducts();
+		const products = Product.getAll();
 		const success = csvSaver.saveCSV(products, ['name', 'noun', 'nsn', 'count']);
 
 		if (success === false) {
@@ -151,7 +132,7 @@ class InventoryManualMode extends React.Component {
 		}
 
 		const dataRows = displayProducts.map((product) => {
-			const location = db.getLocation(product.locationID);
+			const location = Location.get(product.locationID);
 
 			if (editMode === EDIT_MODE.MODIFY && productEditId === product.id) {
 				return <ProductEditDataRow key={product.id} product={product} location={location} onSaveClick={this.saveProduct} onCancelClick={this.cancelEdit} />;

@@ -68,8 +68,20 @@ class Product {
 		return db._getProducts().findIndex((product) => product.id === productID);
 	}
 
-	static getAll() {
-		return db._getProducts().map((plainProduct) => new Product(plainProduct));
+	static getAll({ appendLocation } = {}) {
+		return db._getProducts().map((plainProduct) => {
+			const product = new Product(plainProduct);
+
+			if (appendLocation === true) {
+				product.location = Location.getName(product.locationID);
+
+				if (!product.location) {
+					product.location = 'None';
+				}
+			}
+
+			return product;
+		});
 	}
 
 	static someExist() {

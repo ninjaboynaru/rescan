@@ -23,6 +23,7 @@ class InventoryScreen extends React.Component {
 		this.switchManualMode = this.switchManualMode.bind(this);
 		this.switchScanMode = this.switchScanMode.bind(this);
 		this.openLocationsScreen = this.openLocationsScreen.bind(this);
+		this.dbError = this.dbError.bind(this);
 	}
 
 	componentDidMount() {

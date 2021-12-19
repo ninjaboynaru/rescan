@@ -116,8 +116,8 @@ class InventoryManualMode extends React.Component {
 			return;
 		}
 
-		const products = Product.getAll();
-		const success = csvSaver.saveCSV(products, ['name', 'noun', 'nsn', 'count']);
+		const products = Product.getAll({ appendLocation: true });
+		const success = csvSaver.saveCSV(products, ['name', 'noun', 'nsn', 'count', 'location']);
 
 		if (success === false) {
 			this.props.dbError();

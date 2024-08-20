@@ -1,4 +1,4 @@
-# ReScan
+# ReScan - LEGACY
 ReScan is a hybrid desktop application allowing soldiers to quickly conduct and output formatted military supply inventories with the use of a barcode scanner, saving hundreds of man-hours. Manual inventory input is possible if no barcode scanner is available.  
 
 ReScan is compiled using [Electron](https://www.electronjs.org/)
@@ -31,4 +31,4 @@ These databases can be obtained from a PubLog
 6. The built project is created inside a new folder called `out`
 
 ## Barcode Scanner Input
-Barcode scanner input is detected through a series of rapid key stroke inputs. Barcodes that rely on custom communication protocols will not function with ReScan.
+Barcode scanner input is detected through a series of rapid key stroke inputs. Barcodes that rely on custom communication protocols will not function with this version of ReScan.
